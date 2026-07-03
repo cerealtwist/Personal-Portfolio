@@ -1,0 +1,42 @@
+---
+import { leadership } from '../data/experience';
+import OrgLogo from './OrgLogo.astro';
+---
+
+<section id="leadership">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-eyebrow">Leadership</p>
+      <h2>Organizations</h2>
+    </div>
+    <div class="lead-list">
+      {
+        leadership.map((item) => (
+          <div class="lead-item reveal">
+            <OrgLogo name={item.org} size={40} />
+            <div>
+              <p class="lead-role">{item.role}</p>
+              <p class="lead-org">{item.org}</p>
+              <p class="lead-date">{item.date}</p>
+            </div>
+            <p class="lead-desc">{item.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .lead-list { display: flex; flex-direction: column; }
+  .lead-item { display: grid; grid-template-columns: 40px 220px 1fr; gap: 24px; padding: 30px 0; align-items: start; }
+  .lead-role { font-size: 1.1rem; font-weight: 700; margin: 0 0 3px 0; }
+  .lead-org { font-size: 1rem; color: var(--text-secondary); font-weight: 500; margin: 0 0 3px 0; }
+  .lead-date { font-size: 0.75rem; color: var(--text-tertiary); font-weight: 600; }
+  .lead-desc { font-size: 1rem; color: var(--text); max-width: 60ch; line-height: 1.6; margin: 0; }
+
+  @media (max-width: 700px) {
+    .lead-item { grid-template-columns: 40px 1fr; gap: 12px 16px; }
+    .lead-desc { grid-column: 1 / -1; }
+  }
+</style>

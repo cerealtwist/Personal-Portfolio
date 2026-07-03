@@ -1,0 +1,91 @@
+---
+import {
+  siPython,
+  siPandas,
+  siApachespark,
+  siGooglebigquery,
+  siJavascript,
+  siSvelte,
+  siGooglecloud,
+  siJupyter,
+  siGooglecolab,
+  siNotion,
+  siTrello,
+  siFigma,
+  siGithub,
+} from 'simple-icons';
+
+interface Props {
+  name: string;
+  size?: number;
+}
+
+const { name, size = 15 } = Astro.props;
+
+// Verified against the installed simple-icons package. This library has
+// dropped several brand icons over time (LinkedIn, Excel, Tableau, Power BI,
+// Canva, and the Adobe suite are all absent as of this version, likely
+// trademark-related), so anything not confirmed here falls back to a text
+// monogram instead of a guessed or hand-drawn logo.
+const iconMap: Record<string, { path: string; title: string }> = {
+  Python: siPython,
+  Pandas: siPandas,
+  Spark: siApachespark,
+  BigQuery: siGooglebigquery,
+  JavaScript: siJavascript,
+  Svelte: siSvelte,
+  GCP: siGooglecloud,
+  'Jupyter Notebook': siJupyter,
+  'Google Colab': siGooglecolab,
+  Notion: siNotion,
+  Trello: siTrello,
+  Figma: siFigma,
+  GitHub: siGithub,
+};
+
+// Explicit monogram overrides for tools without a library icon, so the
+// fallback still reads as intentional rather than a missing-image glyph.
+const monogramMap: Record<string, string> = {
+  Excel: 'Ex',
+  Tableau: 'Tb',
+  'Power BI': 'BI',
+  'Adobe Illustrator': 'Ai',
+  'Adobe Photoshop': 'Ps',
+  'Adobe XD': 'Xd',
+  Canva: 'Cv',
+  LinkedIn: 'in',
+  SQL: 'SQL',
+  GIS: 'GIS',
+  VertexAI: 'VA',
+};
+
+const icon = iconMap[name];
+const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
+---
+
+{
+  icon ? (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" role="img" aria-label={icon.title}>
+      <path d={icon.path} />
+    </svg>
+  ) : (
+    <span class="monogram" style={`width:${size + 4}px;height:${size + 4}px;font-size:${size * 0.52}px;`} role="img" aria-label={name}>
+      {monogram}
+    </span>
+  )
+}
+
+<style>
+  .monogram {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+</style>

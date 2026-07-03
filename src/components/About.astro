@@ -1,0 +1,73 @@
+---
+---
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-eyebrow">About</p>
+      <h2>Data, visualized and made useful</h2>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>
+          I'm in my sixth semester of a B.Sc. in Data Science at Telkom University, focused on
+          data visualization, analytics, big data, and time series forecasting. I like working
+          end to end: building the ETL pipeline and the forecasting model, then the dashboard and
+          visuals that make the results usable for someone who isn't a data scientist.
+        </p>
+        <p>
+          Before this, I studied Software Engineering at SMK Telkom Purwokerto, where I picked up
+          database management, UI/UX design, and web development, a background that still shows
+          up in how I think about interfaces for data products today.
+        </p>
+      </div>
+      <div class="honors reveal">
+        <div class="honor-item">
+          <div class="h-label">Honor</div>
+          <div class="h-value">Astra 1st 2026 Scholarship Awardee</div>
+        </div>
+        <div class="honor-item">
+          <div class="h-label">Honor</div>
+          <div class="h-value">Telkom University Endowment Fund 2026 Awardee</div>
+        </div>
+        <div class="honor-item">
+          <div class="h-label">Focus areas</div>
+          <div class="h-value">
+            Data Visualization &middot; Analytics &middot; Big Data &middot; Machine Learning
+            &middot; Time Series
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(40px, 6vw, 90px);
+    align-items: start;
+  }
+  .about-grid p {
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--text);
+    margin: 0 0 22px 0;
+    max-width: 56ch;
+  }
+  .honors { display: flex; flex-direction: column; gap: 22px; }
+  .honor-item { padding-top: 18px; }
+  .honor-item .h-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .honor-item .h-value { font-size: 1rem; font-weight: 600; }
+
+  @media (max-width: 800px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+</style>

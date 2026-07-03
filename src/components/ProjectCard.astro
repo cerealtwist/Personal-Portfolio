@@ -1,0 +1,102 @@
+---
+import TechIcon from './TechIcon.astro';
+import type { ProjectEntry } from '../data/projects';
+
+interface Props {
+  project: ProjectEntry;
+  githubUrl: string;
+  stars: number | null;
+  updatedAt: string | null;
+}
+
+const { project, githubUrl, stars, updatedAt } = Astro.props;
+
+const updatedLabel = updatedAt
+  ? new Date(updatedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  : null;
+---
+
+<div class="proj-card">
+  <div class="proj-top">
+    <div class="proj-name">{project.name}</div>
+    {stars !== null && stars > 0 && (
+      <div class="proj-stars" title={`${stars} GitHub stars`}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z" />
+        </svg>
+        {stars}
+      </div>
+    )}
+  </div>
+  <div class="proj-desc">{project.desc}</div>
+  <div class="proj-stack">
+    {
+      project.stack.map((tech) => (
+        <span class="stack-tag">
+          <TechIcon name={tech} />
+          {tech}
+        </span>
+      ))
+    }
+  </div>
+  <div class="proj-foot">
+    <a class="proj-link" href={githubUrl} target="_blank" rel="noopener">
+      View on GitHub
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17L17 7M17 7H8M17 7V16" />
+      </svg>
+    </a>
+    {updatedLabel && <span class="proj-updated">Updated {updatedLabel}</span>}
+  </div>
+</div>
+
+<style>
+  .proj-card {
+    background: var(--bg-alt);
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.3s var(--ease);
+  }
+  .proj-card:hover { background: var(--bg); }
+
+  .proj-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .proj-name { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+  .proj-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .proj-desc { font-size: 1rem; color: var(--text-secondary); line-height: 1.55; flex-grow: 1; }
+
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--chip);
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+
+  .proj-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+  .proj-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .proj-link svg { width: 12px; height: 12px; transition: transform 0.25s var(--ease); }
+  .proj-card:hover .proj-link svg { transform: translate(3px, -3px); }
+  .proj-updated { font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500; }
+</style>

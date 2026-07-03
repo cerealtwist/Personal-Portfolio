@@ -1,0 +1,19 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div>Farand Mahazalfaa &middot; Data Science, Telkom University</div>
+  <div>Updated {year}</div>
+</footer>
+
+<style>
+  footer {
+    padding: 34px var(--pad);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer div { font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500; }
+</style>

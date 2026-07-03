@@ -1,0 +1,116 @@
+:root {
+  --bg: #FAFAF8;
+  --bg-alt: #F1F0ED;
+  --bg-deep: #ECEBE7;
+  --text: #141312;
+  --text-secondary: #6E6D67;
+  --text-tertiary: #6A685F;
+  --chip: #EFEEEA;
+  --accent: #B5502A;
+  --accent-hover: #963F1F;
+  --accent-tint: #F3E4DC;
+  --max: 1120px;
+  --pad: clamp(24px, 6vw, 64px);
+  --ease: cubic-bezier(.16, .8, .24, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+section { padding: 90px 14px; }
+.alt { background: var(--bg-alt); padding: 90px 14px; }
+
+.section-head { margin-bottom: clamp(40px, 6vw, 72px); }
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--text-tertiary);
+  margin: 0 0 14px 0;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 20ch;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+.chip {
+  background: var(--chip);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 30px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #FAFAF8;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.2s var(--ease);
+}
+.btn:hover { background: var(--accent-hover); }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, .bar-group { cursor: none; }
+}

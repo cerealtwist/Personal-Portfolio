@@ -1,0 +1,76 @@
+---
+import { experience } from '../data/experience';
+import OrgLogo from './OrgLogo.astro';
+---
+
+<section id="experience" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-eyebrow">Experience</p>
+      <h2>Where I've worked</h2>
+    </div>
+    <div class="exp-list">
+      {
+        experience.map((item) => (
+          <div class="exp-item reveal">
+            <div class="exp-date">{item.date}</div>
+            <OrgLogo name={item.org} />
+            <div>
+              <p class="exp-role">{item.role}</p>
+              <p class="exp-org">{item.org}</p>
+              <ul class="exp-bullets">
+                {item.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .exp-list { display: flex; flex-direction: column; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px auto 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 34px 0;
+  }
+  .exp-date {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    letter-spacing: 0.02em;
+    padding-top: 10px;
+  }
+  .exp-role { font-size: 1.25rem; font-weight: 700; margin: 0 0 4px 0; }
+  .exp-org { font-size: 1rem; color: var(--text-secondary); font-weight: 500; margin: 0 0 16px 0; }
+  .exp-bullets { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .exp-bullets li {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.6;
+    padding-left: 18px;
+    position: relative;
+    max-width: 62ch;
+  }
+  .exp-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+  }
+
+  @media (max-width: 700px) {
+    .exp-item { grid-template-columns: auto 1fr; gap: 16px 20px; }
+    .exp-date { grid-column: 1 / -1; padding-top: 0; }
+  }
+</style>

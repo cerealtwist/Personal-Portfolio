@@ -1,0 +1,42 @@
+---
+interface Props {
+  name: string;
+  size?: number;
+}
+
+const { name, size = 44 } = Astro.props;
+
+function getInitials(orgName: string): string {
+  const words = orgName.replace(/[.,]/g, '').split(' ').filter(Boolean);
+  const significant = words.filter((w) => !['of', 'the', 'and', 'PT', 'Pt.'].includes(w));
+  const pick = significant.length > 0 ? significant : words;
+  return pick
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+}
+
+const initials = getInitials(name);
+---
+
+<!-- Placeholder. Swap for a real logo with:
+     <img src="/images/logos/your-logo.svg" alt={name} width={size} height={size} /> -->
+<div class="org-logo" style={`width:${size}px;height:${size}px;`}>
+  {initials}
+</div>
+
+<style>
+  .org-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--chip);
+    color: var(--text-secondary);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: -0.02em;
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+---
+
+<nav>
+  <a class="nav-mark" href="#top">FM</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px var(--pad);
+    backdrop-filter: blur(10px);
+    background: rgba(250, 250, 248, 0.72);
+  }
+  .nav-mark {
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: clamp(16px, 3vw, 34px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-secondary);
+    transition: color 0.25s var(--ease);
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .nav-links { gap: 14px; }
+    .nav-links a { letter-spacing: 0.06em; }
+  }
+</style>
