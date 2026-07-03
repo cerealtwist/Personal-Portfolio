@@ -13,7 +13,7 @@ import OrgLogo from './OrgLogo.astro';
       {
         leadership.map((item) => (
           <div class="lead-item reveal">
-            <OrgLogo name={item.org} size={40} />
+            <OrgLogo name={item.org} logo={item.logo} size={40} />
             <div>
               <p class="lead-role">{item.role}</p>
               <p class="lead-org">{item.org}</p>

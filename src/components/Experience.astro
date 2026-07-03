@@ -14,7 +14,7 @@ import OrgLogo from './OrgLogo.astro';
         experience.map((item) => (
           <div class="exp-item reveal">
             <div class="exp-date">{item.date}</div>
-            <OrgLogo name={item.org} />
+            <OrgLogo name={item.org} logo={item.logo} />
             <div>
               <p class="exp-role">{item.role}</p>
               <p class="exp-org">{item.org}</p>

@@ -22,11 +22,8 @@ interface Props {
 
 const { name, size = 15 } = Astro.props;
 
-// Verified against the installed simple-icons package. This library has
-// dropped several brand icons over time (LinkedIn, Excel, Tableau, Power BI,
-// Canva, and the Adobe suite are all absent as of this version, likely
-// trademark-related), so anything not confirmed here falls back to a text
-// monogram instead of a guessed or hand-drawn logo.
+// Tier 1: verified against the installed simple-icons package, rendered
+// inline so `currentColor` keeps them monochrome and matched to text color.
 const iconMap: Record<string, { path: string; title: string }> = {
   Python: siPython,
   Pandas: siPandas,
@@ -43,8 +40,19 @@ const iconMap: Record<string, { path: string; title: string }> = {
   GitHub: siGithub,
 };
 
-// Explicit monogram overrides for tools without a library icon, so the
-// fallback still reads as intentional rather than a missing-image glyph.
+// Tier 2: your own downloaded SVGs. Drop the file into public/images/icons/
+// with this exact filename and it's picked up automatically, no code change
+// needed. These render in their original colors (Freepik/Wikimedia SVGs
+// usually aren't single-color), see README for how to force monochrome.
+const customIconMap: Record<string, string> = {
+  Tableau: '/images/icons/tableau.svg',
+  VertexAI: '/images/icons/vertex-ai.svg',
+  SQL: '/images/icons/sql.svg',
+  Excel: '/images/icons/excel.svg',
+  'Power BI': '/images/icons/power-bi.svg',
+};
+
+// Tier 3: text monogram, used until you've added a file for that tool above.
 const monogramMap: Record<string, string> = {
   Excel: 'Ex',
   Tableau: 'Tb',
@@ -52,7 +60,6 @@ const monogramMap: Record<string, string> = {
   'Adobe Illustrator': 'Ai',
   'Adobe Photoshop': 'Ps',
   'Adobe XD': 'Xd',
-  Canva: 'Cv',
   LinkedIn: 'in',
   SQL: 'SQL',
   GIS: 'GIS',
@@ -60,6 +67,7 @@ const monogramMap: Record<string, string> = {
 };
 
 const icon = iconMap[name];
+const customSrc = customIconMap[name];
 const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
 ---
 
@@ -68,6 +76,18 @@ const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" role="img" aria-label={icon.title}>
       <path d={icon.path} />
     </svg>
+  ) : customSrc ? (
+    <span class="icon-wrap" style={`width:${size + 4}px;height:${size + 4}px;font-size:${size * 0.52}px;`}>
+      <span class="monogram">{monogram}</span>
+      <img
+        class="custom-icon"
+        src={customSrc}
+        alt={name}
+        loading="lazy"
+        onload="this.previousElementSibling.style.display='none'; this.style.opacity='1';"
+        onerror="this.remove();"
+      />
+    </span>
   ) : (
     <span class="monogram" style={`width:${size + 4}px;height:${size + 4}px;font-size:${size * 0.52}px;`} role="img" aria-label={name}>
       {monogram}
@@ -76,10 +96,17 @@ const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
 }
 
 <style>
+  .icon-wrap {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
   .monogram {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
     border-radius: 4px;
     background: var(--text);
     color: var(--bg);
@@ -87,5 +114,13 @@ const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
     letter-spacing: -0.02em;
     line-height: 1;
     flex-shrink: 0;
+  }
+  .custom-icon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
   }
 </style>

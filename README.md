@@ -80,6 +80,63 @@ The contact form posts to Formspree. It won't actually send anything until you:
 Until you do that, submitting the form shows an inline message telling the
 visitor it's not wired up yet, rather than silently losing their message.
 
+## Adding your organization logos
+
+Each entry in `src/data/experience.ts` has a `logo` field pointing to a file
+under `public/images/logos/`. The filenames are already set up for you,
+just drop matching files in that folder:
+
+| Organization | Expected file |
+|---|---|
+| EON Reality | `public/images/logos/eon-reality.png` |
+| Telkom University (Language Center) | `public/images/logos/telkom-university.png` |
+| PT. Breezelabs Cipta Utama | `public/images/logos/breezelabs.png` |
+| SRE Telkom University | `public/images/logos/sre.png` |
+| IEEE Telkom University | `public/images/logos/ieee.png` |
+
+Until a file exists at that path, the entry shows auto-generated initials
+instead (no broken image icons, it checks whether the file loads first).
+
+Adding a new experience or leadership entry later: add an object to the
+array in `src/data/experience.ts` with a `logo` field pointing to wherever
+you put the file. PNG, JPG, or SVG all work. Roughly square, at least 88x88px
+so it looks sharp, is a safe bet.
+
+## Adding your own tech-stack icons (Tableau, Vertex AI, SQL, Excel, Power BI, Canva)
+
+These six aren't in the icon library the site uses (see note below), so
+`src/components/TechIcon.astro` is already set up to look for your own files
+in `public/images/icons/`:
+
+| Tool | Expected file |
+|---|---|
+| Tableau | `public/images/icons/tableau.svg` |
+| Vertex AI | `public/images/icons/vertex-ai.svg` |
+| SQL | `public/images/icons/sql.svg` |
+| Excel | `public/images/icons/excel.svg` |
+| Power BI | `public/images/icons/power-bi.svg` |
+| Canva | `public/images/icons/canva.svg` |
+
+Download an SVG from Wikimedia Commons or Freepik, rename it to match the
+table above, drop it in that folder. That's it, no code changes. Until the
+file exists, that icon shows a text badge (Tb, VA, SQL, Ex, BI, Cv) instead.
+
+**On color**: your downloaded SVGs will render in their original brand
+colors, not the site's monochrome palette. That's normal for logos and
+usually looks fine at small size. If you want a specific icon to match the
+grayscale/accent palette instead, open the SVG in a text editor and replace
+every `fill="#xxxxxx"` (or `fill="rgb(...)"`) with `fill="currentColor"`,
+then remove any hardcoded background `<rect>`. Works well for simple
+single-color icons, not worth the effort for detailed multi-color ones.
+
+**Why these six are missing from the library**: this project uses the
+`simple-icons` npm package for verified brand logos. As of the installed
+version, it doesn't ship LinkedIn, Excel, Tableau, Power BI, Canva, or any
+Adobe product icon (likely removed after trademark disputes, this has
+happened to that library before). Rather than hand-draw a guess at those
+logos, the site uses text monograms as an honest fallback until you supply
+the real file yourself.
+
 ## Other new pieces
 
 - **Accent color**: one color token (`--accent`, a warm rust) used sparingly on
@@ -88,10 +145,7 @@ visitor it's not wired up yet, rather than silently losing their message.
 - **Custom cursor**: a dot + lagging outline ring, desktop only (disabled on
   touch devices and for anyone with reduced-motion preferences). Lives in
   `src/components/Cursor.astro`.
-- **Org/company logos**: `src/components/OrgLogo.astro` renders auto-generated
-  initials in a placeholder badge next to each Experience and Leadership entry.
-  Swap in a real logo by replacing its placeholder `<div>` with an `<img>`,
-  instructions are in a comment at the top of that file.
+- **Org/company logos**: see "Adding your organization logos" above.
 - **Typewriter effect**: the hero name types itself out on load. Skips straight
   to the full name if the visitor has `prefers-reduced-motion` enabled.
 
