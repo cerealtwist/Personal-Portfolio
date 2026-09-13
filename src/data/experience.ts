@@ -8,24 +8,45 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
+    date: 'Jun 2026 – Present',
+    role: 'Project Consultant · Data & Systems Technical Lead',
+    org: 'PT. Astra International – Honda Sales Operation (Astra Motor)',
+    logo: '/images/logos/astra-motor.png',
+    bullets: [
+      'Leading the technical development of AMDC Pocket, an internal learning platform for Astra Motor Development Center, across architecture, backend development, access rules, testing, and handover readiness.',
+      'Built and maintained Django and PostgreSQL backend workflows while preparing and validating user data for system use.',
+      'Introduced Jira-based sprint tracking to improve visibility of task ownership, dependencies, blockers, and delivery progress across the development team.',
+      'Facilitate weekly Scrum sessions and regular PDCA updates with project stakeholders while the project progresses toward UAT and handover.',
+    ],
+  },
+  {
+    date: 'Aug 2026 – Present',
+    role: 'AI Evaluation Specialist & Language Expert',
+    org: 'Outlier.ai',
+    bullets: [
+      'Evaluate Speech-to-Speech multimodal AI models for Indonesian localization through RLHF, adversarial red-teaming, and multi-turn conversation auditing.',
+      'Write structured rationales covering acoustic quality, safety boundaries, and factual accuracy while maintaining a 3.5/4.0 quality rating.',
+    ],
+  },
+  {
     date: 'Jan 2026 – Apr 2026',
     role: 'Product Development Intern',
     org: 'EON Reality',
     logo: '/images/logos/eon-reality.png',
     bullets: [
-      'Built the EON Orchestrator platform: a FastAPI and PostgreSQL microservices architecture for an event-driven AI agent ecosystem.',
-      'Wrote a vocational training startup proposal ("Learn for Life"), integrating EON-XR to address skill gaps in the Indonesian workforce.',
-      'Benchmarked AI app builders (Replit, Lovable, Manus) on visual fidelity and business logic to guide internal tooling decisions.',
+      'Engineered the EON Orchestrator, an RAG-based AI workflow system using Python, FastAPI, and PostgreSQL for business proposal and outreach workflows.',
+      'Developed a vocational training startup proposal for the Learn for Life initiative, integrating EON-XR around workforce skill gaps in Indonesia.',
+      'Benchmarked AI application builders including Replit, Lovable, and Manus to compare development workflow, exportability, and interface quality.',
     ],
   },
   {
     date: 'May 2025 – Jan 2026',
-    role: 'Tutor, Bahasa Indonesia for Foreign Speakers',
+    role: 'Tutor, Bahasa Indonesia for Foreign Speakers (BIPA)',
     org: 'Telkom University Language Center',
     logo: '/images/logos/telkom-university.png',
     bullets: [
-      'Taught Indonesian at A1 and A2 levels through a collaboration between Telkom University and the Indonesian Embassy in Paris.',
-      'Worked with KNB and TIAS scholarship awardees in offline sessions, strengthening their Indonesian during their studies.',
+      'Taught Indonesian at A1 and A2 levels through the BIPA program in collaboration with Atdikbud KBRI Paris.',
+      'Worked with KNB and TIAS scholarship awardees through in-person sessions at Telkom University, adapting feedback to different language backgrounds.',
     ],
   },
   {
@@ -34,9 +55,8 @@ export const experience: ExperienceEntry[] = [
     org: 'PT. Breezelabs Cipta Utama',
     logo: '/images/logos/breezelabs.png',
     bullets: [
-      'Contributed to a cooperative (Koperasi) management system built on Laravel.',
-      'Designed user-facing interfaces and shipped company profile sites on October CMS and WordPress.',
-      'Worked in cross-functional Agile teams, supporting Odoo CRM integrations.',
+      'Contributed to a cooperative management system built on Laravel and supported user-facing interface work.',
+      'Shipped company profile sites using October CMS and WordPress and collaborated in cross-functional Agile delivery.',
     ],
   },
 ];
@@ -62,7 +82,7 @@ export const leadership: LeadershipEntry[] = [
     role: 'Creative & Information Content Manager',
     org: 'IEEE Telkom University',
     logo: '/images/logos/ieee.png',
-    desc: 'Produced visual explainers for the IEEE Louds series (Neuromorphic Computing, Quantum Computing, IoT), making research-level content accessible through modular design. Built a content schedule and script templates in Notion to speed up production.',
+    desc: 'Produced visual explainers for the IEEE Louds series on topics such as Neuromorphic Computing, Quantum Computing, and IoT, and built a Notion-based content schedule and script templates to support production.',
   },
   {
     date: 'Dec 2023 – Dec 2024',
