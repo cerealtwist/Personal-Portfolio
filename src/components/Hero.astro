@@ -6,93 +6,65 @@
     <div class="hero-kicker reveal">Data Science · Design · Software</div>
 
     <div class="hero-main reveal">
-      <h1>I make complex problems easier to understand and use.</h1>
+      <h1>I make complex problems easier to <span>understand and use.</span></h1>
       <p>
         I'm Farand Mahazalfaa, a Data Science student at Telkom University working across
         analytics, product systems, visual communication, and urban data.
       </p>
-    </div>
-
-    <div class="hero-foot reveal">
-      <div class="availability">
-        <span class="dot" aria-hidden="true"></span>
-        Open to internships and collaborative projects
-      </div>
-      <div class="hero-links">
-        <a href="mailto:farand.dee@gmail.com">Email ↗</a>
-        <a href="https://linkedin.com/in/farandee/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="https://github.com/cerealtwist" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
     </div>
   </div>
 </header>
 
 <style>
   .hero {
-    min-height: 92svh;
+    min-height: 76svh;
     display: flex;
-    align-items: end;
-    padding: 132px 0 56px;
+    align-items: center;
+    padding: 132px 0 84px;
+    background:
+      radial-gradient(circle at 78% 20%, rgba(67, 137, 207, .13), transparent 28%),
+      linear-gradient(180deg, #fbfdff 0%, var(--bg) 74%);
   }
 
   .hero-grid {
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(130px, .45fr) 1.55fr;
-    gap: 28px;
+    grid-template-columns: minmax(130px, .4fr) 1.6fr;
+    gap: 32px;
     align-items: start;
   }
 
   .hero-kicker {
-    padding-top: .75rem;
-    color: var(--text-secondary);
+    padding-top: .8rem;
+    color: var(--blue-deep);
     font-size: .78rem;
-    font-weight: 600;
+    font-weight: 650;
     letter-spacing: .07em;
     text-transform: uppercase;
   }
 
   .hero-main h1 {
     margin: 0;
-    max-width: 12ch;
-    font-size: clamp(3.4rem, 8.5vw, 8.7rem);
-    font-weight: 540;
-    line-height: .9;
-    letter-spacing: -.065em;
+    max-width: 13ch;
+    font-size: clamp(3rem, 6.25vw, 6.5rem);
+    font-weight: 560;
+    line-height: .94;
+    letter-spacing: -.055em;
   }
+
+  .hero-main h1 span { color: var(--blue); }
 
   .hero-main p {
-    margin: clamp(30px, 4vw, 54px) 0 0;
-    max-width: 46ch;
+    margin: clamp(28px, 3.5vw, 46px) 0 0;
+    max-width: 48ch;
     color: var(--text-secondary);
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    line-height: 1.45;
+    font-size: clamp(1rem, 1.3vw, 1.18rem);
+    line-height: 1.5;
   }
-
-  .hero-foot {
-    grid-column: 1 / -1;
-    margin-top: clamp(56px, 8vw, 100px);
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    color: var(--text-secondary);
-    font-size: .82rem;
-  }
-
-  .availability,
-  .hero-links { display: flex; align-items: center; gap: 18px; }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: #111; }
-  .hero-links a { transition: color .2s var(--ease); }
-  .hero-links a:hover { color: var(--text); }
 
   @media (max-width: 760px) {
-    .hero { min-height: 88svh; padding-top: 120px; }
+    .hero { min-height: auto; padding: 118px 0 72px; }
     .hero-grid { grid-template-columns: 1fr; gap: 18px; }
-    .hero-main h1 { max-width: 10ch; }
-    .hero-foot { grid-column: 1; align-items: flex-start; flex-direction: column; }
-    .hero-links { flex-wrap: wrap; }
+    .hero-main h1 { max-width: 11ch; font-size: clamp(2.8rem, 13vw, 4.8rem); }
   }
 </style>
