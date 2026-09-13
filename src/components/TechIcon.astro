@@ -25,9 +25,9 @@ interface Props {
   size?: number;
 }
 
-const { name, size = 15 } = Astro.props;
+const { name, size = 20 } = Astro.props;
 
-const iconMap: Record<string, { path: string; title: string }> = {
+const iconMap: Record<string, { path: string; title: string; hex: string }> = {
   Python: siPython,
   Pandas: siPandas,
   Spark: siApachespark,
@@ -56,6 +56,16 @@ const customIconMap: Record<string, string> = {
   'Power BI': '/images/icons/power-bi.svg',
 };
 
+const fallbackColorMap: Record<string, string> = {
+  'Adobe Illustrator': '#FF9A00',
+  'Adobe Photoshop': '#31A8FF',
+  'Adobe XD': '#FF61F6',
+  SQL: '#336791',
+  Tableau: '#E97627',
+  Excel: '#217346',
+  'Power BI': '#F2C811',
+};
+
 const monogramMap: Record<string, string> = {
   Excel: 'Ex',
   Tableau: 'Tb',
@@ -72,37 +82,44 @@ const monogramMap: Record<string, string> = {
 const icon = iconMap[name];
 const customSrc = customIconMap[name];
 const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
+const fallbackColor = fallbackColorMap[name] ?? '#235f9c';
 ---
 
-{
-  icon ? (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" role="img" aria-label={icon.title}>
-      <path d={icon.path} />
-    </svg>
-  ) : customSrc ? (
-    <span class="icon-wrap" style={`width:${size + 4}px;height:${size + 4}px;font-size:${size * 0.52}px;`}>
-      <span class="monogram">{monogram}</span>
-      <img
-        class="custom-icon"
-        src={customSrc}
-        alt={name}
-        loading="lazy"
-        onload="this.previousElementSibling.style.display='none'; this.style.opacity='1';"
-        onerror="this.remove();"
-      />
-    </span>
-  ) : (
-    <span class="monogram" style={`width:${size + 4}px;height:${size + 4}px;font-size:${size * 0.52}px;`} role="img" aria-label={name}>
-      {monogram}
-    </span>
-  )
-}
+<span class="icon-tile" style={`width:${size + 16}px;height:${size + 16}px;`} aria-label={name}>
+  {
+    icon ? (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill={`#${icon.hex}`} role="img" aria-label={icon.title}>
+        <path d={icon.path} />
+      </svg>
+    ) : customSrc ? (
+      <>
+        <span class="monogram" style={`color:${fallbackColor};font-size:${size * .48}px;`}>{monogram}</span>
+        <img
+          class="custom-icon"
+          src={customSrc}
+          alt={name}
+          loading="lazy"
+          onload="this.previousElementSibling.style.display='none'; this.style.opacity='1';"
+          onerror="this.remove();"
+        />
+      </>
+    ) : (
+      <span class="monogram" style={`color:${fallbackColor};font-size:${size * .48}px;`}>{monogram}</span>
+    )
+  }
+</span>
 
 <style>
-  .icon-wrap {
+  .icon-tile {
     position: relative;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    border: 1px solid rgba(35, 95, 156, .10);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .86);
+    box-shadow: 0 5px 16px rgba(23, 75, 125, .06);
   }
   .monogram {
     display: inline-flex;
@@ -110,19 +127,15 @@ const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
     justify-content: center;
     width: 100%;
     height: 100%;
-    border-radius: 4px;
-    background: var(--text);
-    color: var(--bg);
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 750;
+    letter-spacing: -.03em;
     line-height: 1;
-    flex-shrink: 0;
   }
   .custom-icon {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
     object-fit: contain;
     opacity: 0;
   }
