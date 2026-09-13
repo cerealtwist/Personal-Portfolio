@@ -1,56 +1,75 @@
 ---
 ---
 
-<nav>
-  <a class="nav-mark" href="#top">FM</a>
+<nav class="site-nav" aria-label="Primary navigation">
+  <a class="nav-mark" href="#top" aria-label="Back to top">Farand Mahazalfaa</a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
     <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/cerealtwist" target="_blank" rel="noopener">GitHub ↗</a></li>
   </ul>
 </nav>
 
 <style>
-  nav {
+  .site-nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto 0;
     z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px var(--pad);
-    backdrop-filter: blur(10px);
-    background: rgba(250, 250, 248, 0.72);
+    gap: 24px;
+    padding: 18px var(--pad);
+    border-bottom: 1px solid rgba(231,231,227,.8);
+    background: rgba(252,252,251,.86);
+    backdrop-filter: blur(14px);
   }
+
   .nav-mark {
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.02em;
+    font-size: .84rem;
+    font-weight: 650;
+    letter-spacing: -.01em;
+    white-space: nowrap;
   }
+
   .nav-links {
     display: flex;
-    gap: clamp(16px, 3vw, 34px);
+    align-items: center;
+    gap: clamp(14px, 2.3vw, 30px);
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  .nav-links a {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--text-secondary);
-    transition: color 0.25s var(--ease);
-  }
-  .nav-links a:hover { color: var(--text); }
 
-  @media (max-width: 640px) {
-    .nav-links { gap: 14px; }
-    .nav-links a { letter-spacing: 0.06em; }
+  .nav-links a {
+    position: relative;
+    color: var(--text-secondary);
+    font-size: .8rem;
+    font-weight: 500;
+    transition: color .2s var(--ease);
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -5px;
+    height: 1px;
+    background: currentColor;
+    transition: right .28s var(--ease);
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { right: 0; }
+
+  @media (max-width: 760px) {
+    .site-nav { padding-top: 15px; padding-bottom: 15px; }
+    .nav-mark { font-size: .78rem; }
+    .nav-links li:nth-child(2),
+    .nav-links li:nth-child(3),
+    .nav-links li:last-child { display: none; }
   }
 </style>
