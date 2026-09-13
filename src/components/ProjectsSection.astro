@@ -8,8 +8,9 @@ const work = [
     summary: 'Building an internal learning platform for Astra Motor around access, maintainability, and real organizational constraints.',
     className: 'work-wide amdc',
     href: '/work/amdc-pocket',
-    media: 'placeholder',
-    mediaLabel: 'AMDC Pocket hero / login screenshot needed',
+    media: 'brand-placeholder',
+    brandLogo: '/images/logos/amdc-pocket.png',
+    mediaLabel: 'AMDC Pocket logo with product screenshot placeholder',
   },
   {
     number: '02',
@@ -19,9 +20,8 @@ const work = [
     summary: 'Turning volatile food-price forecasts into procurement decisions for small food businesses.',
     className: 'work-half narapangan',
     href: '/work/narapangan',
-    media: 'image',
-    mediaSrc: '/media/ss-narapangan.png',
-    mediaLabel: 'Narapangan dashboard',
+    media: 'placeholder',
+    mediaLabel: 'Narapangan product screenshots',
   },
   {
     number: '03',
@@ -32,7 +32,7 @@ const work = [
     className: 'work-half sre',
     href: '/work/sre-telkom',
     media: 'placeholder',
-    mediaLabel: 'SRE rebrand collage needed',
+    mediaLabel: 'SRE rebrand collage',
   },
   {
     number: '04',
@@ -43,7 +43,7 @@ const work = [
     className: 'work-wide bandung',
     href: '/work/bandung-accessibility',
     media: 'placeholder',
-    mediaLabel: 'Redesigned Bandung accessibility map needed',
+    mediaLabel: 'Bandung accessibility map',
   },
   {
     number: '05',
@@ -54,7 +54,7 @@ const work = [
     className: 'work-small comtrade',
     href: '/work/comtrade',
     media: 'placeholder',
-    mediaLabel: 'Tableau overview image ready to add',
+    mediaLabel: 'Comtrade Tableau dashboard',
   },
 ];
 ---
@@ -71,7 +71,21 @@ const work = [
         <article class={`work-item ${item.className} reveal`}>
           <a class="work-link" href={item.href} data-cursor>
             <div class="work-media">
-              {item.media === 'image' ? (
+              {item.media === 'brand-placeholder' ? (
+                <div class="media-placeholder brand-placeholder" aria-label={item.mediaLabel}>
+                  <div class="brand-lockup">
+                    <img
+                      class="brand-logo"
+                      src={item.brandLogo}
+                      alt="AMDC Pocket"
+                      loading="lazy"
+                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                    />
+                    <span class="brand-fallback">AMDC Pocket</span>
+                  </div>
+                  <span class="placeholder-note">Product screenshot placeholder</span>
+                </div>
+              ) : item.media === 'image' ? (
                 <img src={item.mediaSrc} alt={item.mediaLabel} loading="lazy" />
               ) : (
                 <div class="media-placeholder" aria-label={item.mediaLabel}>
@@ -145,12 +159,44 @@ const work = [
     background-size: 32px 32px;
   }
 
-  .media-placeholder span {
+  .media-placeholder > span {
     padding: 9px 12px;
     background: var(--bg);
     color: var(--text-tertiary);
     font-size: .72rem;
     letter-spacing: .02em;
+  }
+
+  .brand-placeholder {
+    position: relative;
+    align-content: center;
+  }
+
+  .brand-lockup {
+    width: min(56%, 620px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-logo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .brand-fallback {
+    display: none;
+    font-size: clamp(2rem, 6vw, 5.6rem);
+    font-weight: 650;
+    letter-spacing: -.055em;
+    color: var(--text);
+  }
+
+  .placeholder-note {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
   }
 
   .work-meta {
@@ -206,5 +252,6 @@ const work = [
     .work-meta { grid-template-columns: 32px 1fr; }
     .work-arrow { display: none; }
     .work-title-row { align-items: flex-start; }
+    .brand-lockup { width: 72%; }
   }
 </style>
