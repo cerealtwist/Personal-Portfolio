@@ -2,7 +2,7 @@ export interface ExperienceEntry {
   date: string;
   role: string;
   org: string;
-  logo?: string; // path under public/, e.g. "/images/logos/eon-reality.png". Leave unset for auto initials.
+  logo?: string;
   bullets: string[];
 }
 
@@ -55,7 +55,7 @@ export const leadership: LeadershipEntry[] = [
     role: 'Director of Multimedia',
     org: 'SRE Telkom University',
     logo: '/images/logos/sre.png',
-    desc: "Rebuilt SRE's digital presence from scratch, directing Social Media and Creative Media teams to establish unified visual branding. Drove 83% follower growth (1.8K to 3.3K) by aligning content with what the engagement data actually showed, and set up a Notion and Google Sheets system for cross-divisional scheduling.",
+    desc: "Led Social Media and Creative Media while overhauling SRE Telkom University's visual identity, content system, and cross-divisional workflow. During my wider involvement in SRE, the Instagram audience grew from roughly 1K followers in 2023 to around 3.1K by the end of 2025; I no longer have access to the original analytics dashboard, so I treat those figures as approximate.",
   },
   {
     date: 'Jan 2025 – Jan 2026',
@@ -69,6 +69,6 @@ export const leadership: LeadershipEntry[] = [
     role: 'Social Media Manager',
     org: 'SRE Telkom University',
     logo: '/images/logos/sre.png',
-    desc: 'Managed social content promoting renewable energy awareness, contributed design and media work for Green Impact Days 2024, and led Publication & Documentation for SREssay 2024, a national essay competition.',
+    desc: 'Managed social content promoting renewable energy awareness and led Publication & Documentation for SREssay 2024, where I developed the program branding and publication system that later became the starting point for the broader SRE visual overhaul.',
   },
 ];
