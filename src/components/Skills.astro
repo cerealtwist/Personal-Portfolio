@@ -1,58 +1,84 @@
 ---
 import TechIcon from './TechIcon.astro';
 
-const tools = [
-  'Python', 'SQL', 'GCP', 'BigQuery', 'Excel', 'Power BI', 'Tableau',
-  'Jupyter Notebook', 'Google Colab', 'Notion', 'Trello',
+const groups = [
+  {
+    label: 'Data & analysis',
+    tools: ['Python', 'SQL', 'BigQuery', 'Jupyter Notebook', 'Google Colab', 'Excel', 'Power BI', 'Tableau'],
+  },
+  {
+    label: 'Cloud & development',
+    tools: ['GCP', 'GitHub', 'Docker', 'PostgreSQL', 'Django', 'FastAPI'],
+  },
+  {
+    label: 'Design & communication',
+    tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Adobe XD'],
+  },
+  {
+    label: 'Planning & collaboration',
+    tools: ['Jira', 'Notion', 'Trello'],
+  },
 ];
-const design = ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Adobe XD'];
 ---
 
 <section id="skills" class="alt">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="section-eyebrow">Skills</p>
-      <h2>Tools I reach for</h2>
+      <p class="section-eyebrow">Tools & skills</p>
+      <h2>The tools change. The way I work matters more.</h2>
     </div>
-    <div class="skills-grid reveal">
-      <div>
-        <div class="skill-cat-label">Data & Analysis</div>
-        <div class="chip-row">
-          {tools.map((tool) => (
-            <span class="chip">
-              <TechIcon name={tool} size={14} />
-              {tool}
-            </span>
-          ))}
+
+    <div class="skills-list reveal">
+      {groups.map((group) => (
+        <div class="skill-row">
+          <p class="skill-label">{group.label}</p>
+          <div class="tool-list">
+            {group.tools.map((tool) => (
+              <span class="tool-item">
+                <TechIcon name={tool} size={15} />
+                {tool}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <div class="skill-cat-label">Design</div>
-        <div class="chip-row">
-          {design.map((tool) => (
-            <span class="chip">
-              <TechIcon name={tool} size={14} />
-              {tool}
-            </span>
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; }
-  .skill-cat-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-tertiary);
-    margin-bottom: 18px;
+  .skills-list { border-top: 1px solid var(--line); }
+  .skill-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.32fr) 1fr;
+    gap: 32px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
   }
-  .chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
-  .chip { display: inline-flex; align-items: center; gap: 8px; }
+  .skill-label {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+  }
+  .tool-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.96rem;
+    color: var(--text);
+    white-space: nowrap;
+  }
 
-  @media (max-width: 700px) { .skills-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) {
+    .skill-row { grid-template-columns: 1fr; gap: 14px; }
+  }
 </style>
