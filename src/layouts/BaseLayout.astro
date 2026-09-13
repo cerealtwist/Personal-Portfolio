@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = 'Farand Mahazalfaa | Data Science',
-  description = 'Portfolio of Farand Mahazalfaa, Data Science student at Telkom University. Forecasting, geospatial analytics, and the pipelines in between.',
+  title = 'Farand Mahazalfaa | Data, Design & Software',
+  description = 'Portfolio of Farand Mahazalfaa, a Data Science student working across data, design, and software to make complex problems easier to understand and use.',
 } = Astro.props;
 ---
 
@@ -23,7 +23,7 @@ const {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap"
     rel="stylesheet"
   />
 </head>
@@ -39,7 +39,7 @@ const {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
   </script>
