@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Cursor from '../../components/Cursor.astro';
+import { caseStudies } from '../../data/caseStudies';
+
+export function getStaticPaths() {
+  return caseStudies.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const currentIndex = caseStudies.findIndex((item) => item.slug === project.slug);
+const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
+---
+
+<BaseLayout title={`${project.title} | Farand Mahazalfaa`} description={project.intro}>
+  <Cursor />
+
+  <header class="case-nav">
+    <a href="/">Farand Mahazalfaa</a>
+    <a href="/#projects">All work</a>
+  </header>
+
+  <main>
+    <section class="case-hero wrap">
+      <div class="case-kicker">{project.number} / 05 · {project.year}</div>
+      <h1>{project.title}</h1>
+      <p class="case-intro">{project.intro}</p>
+
+      <div class="case-meta">
+        <div><span>Role</span><strong>{project.role}</strong></div>
+        <div><span>Context</span><strong>{project.context}</strong></div>
+        {project.externalUrl && (
+          <div><span>Link</span><a href={project.externalUrl} target="_blank" rel="noopener">{project.externalLabel} ↗</a></div>
+        )}
+      </div>
+    </section>
+
+    <section class="case-media wrap">
+      {project.hero ? (
+        <img src={project.hero} alt={project.heroAlt || project.title} />
+      ) : (
+        <div class="case-placeholder"><span>{project.placeholderLabel}</span></div>
+      )}
+    </section>
+
+    <section class="case-body wrap">
+      <div class="case-row">
+        <div class="case-label">The problem</div>
+        <div class="case-copy"><p>{project.problem}</p></div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-label">My contribution</div>
+        <div class="case-copy">
+          <ul>
+            {project.contribution.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-row learning-row">
+        <div class="case-label">What I learned</div>
+        <div class="case-copy"><blockquote>{project.learning}</blockquote></div>
+      </div>
+    </section>
+
+    <section class="next-project wrap">
+      <p>Next project</p>
+      <a href={`/work/${nextProject.slug}`}>
+        <span>{nextProject.number}</span>
+        <strong>{nextProject.title}</strong>
+        <span>↗</span>
+      </a>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .case-nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px var(--pad);
+    font-size: .84rem;
+    font-weight: 560;
+  }
+
+  .case-nav a:last-child { color: var(--text-secondary); }
+
+  .case-hero {
+    padding-top: clamp(84px, 12vw, 150px);
+    padding-bottom: clamp(56px, 8vw, 96px);
+  }
+
+  .case-kicker {
+    margin-bottom: 24px;
+    color: var(--text-tertiary);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+
+  h1 {
+    margin: 0;
+    max-width: 11ch;
+    font-size: clamp(3.3rem, 9vw, 8.5rem);
+    line-height: .92;
+    letter-spacing: -.065em;
+    font-weight: 600;
+  }
+
+  .case-intro {
+    margin: 40px 0 56px;
+    max-width: 62ch;
+    font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--text);
+  }
+
+  .case-meta div { display: flex; flex-direction: column; gap: 7px; }
+  .case-meta span { color: var(--text-tertiary); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+  .case-meta strong,
+  .case-meta a { font-size: .94rem; font-weight: 500; }
+
+  .case-media { padding-bottom: clamp(80px, 11vw, 150px); }
+  .case-media img,
+  .case-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+  }
+  .case-media img { object-fit: cover; }
+
+  .case-placeholder {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      #f7f7f5;
+    background-size: 32px 32px;
+  }
+  .case-placeholder span {
+    background: var(--bg);
+    padding: 10px 13px;
+    color: var(--text-tertiary);
+    font-size: .75rem;
+  }
+
+  .case-body { padding-bottom: clamp(100px, 13vw, 180px); }
+  .case-row {
+    display: grid;
+    grid-template-columns: minmax(140px, .28fr) 1fr;
+    gap: clamp(28px, 6vw, 90px);
+    padding: 44px 0;
+    border-top: 1px solid var(--line);
+  }
+  .case-label {
+    font-size: .76rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+  }
+  .case-copy { max-width: 760px; }
+  .case-copy p,
+  .case-copy li,
+  .case-copy blockquote {
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    line-height: 1.65;
+  }
+  .case-copy p { margin: 0; }
+  .case-copy ul { margin: 0; padding: 0; list-style: none; }
+  .case-copy li { padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .case-copy li:first-child { padding-top: 0; }
+  .case-copy blockquote {
+    margin: 0;
+    font-size: clamp(1.55rem, 3vw, 2.7rem);
+    line-height: 1.22;
+    letter-spacing: -.035em;
+  }
+
+  .next-project {
+    padding-top: 28px;
+    padding-bottom: 80px;
+    border-top: 1px solid var(--text);
+  }
+  .next-project p {
+    margin: 0 0 30px;
+    color: var(--text-tertiary);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .next-project a {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+  }
+  .next-project span { color: var(--text-secondary); font-size: .82rem; }
+  .next-project strong {
+    font-size: clamp(2rem, 6vw, 5.5rem);
+    font-weight: 560;
+    letter-spacing: -.055em;
+  }
+
+  @media (max-width: 720px) {
+    .case-meta { grid-template-columns: 1fr; }
+    .case-row { grid-template-columns: 1fr; gap: 18px; }
+    .next-project a { grid-template-columns: 34px 1fr auto; }
+  }
+</style>
