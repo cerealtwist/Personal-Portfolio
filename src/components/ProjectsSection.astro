@@ -7,7 +7,7 @@ const work = [
     role: 'Data & Systems Technical Lead',
     summary: 'Building an internal learning platform for Astra Motor around access, maintainability, and real organizational constraints.',
     className: 'work-wide amdc',
-    href: '#',
+    href: '/work/amdc-pocket',
     media: 'placeholder',
     mediaLabel: 'AMDC Pocket hero / login screenshot needed',
   },
@@ -18,7 +18,7 @@ const work = [
     role: 'Project Lead · Data Product & Full-Stack Development',
     summary: 'Turning volatile food-price forecasts into procurement decisions for small food businesses.',
     className: 'work-half narapangan',
-    href: 'https://github.com/FaarisKhairrudin/Prescriptive-food-price-intelligence',
+    href: '/work/narapangan',
     media: 'image',
     mediaSrc: '/media/ss-narapangan.png',
     mediaLabel: 'Narapangan dashboard',
@@ -30,7 +30,7 @@ const work = [
     role: 'Director of Multimedia',
     summary: 'Rebuilding the visual identity and communication system of a growing sustainability organization.',
     className: 'work-half sre',
-    href: '#',
+    href: '/work/sre-telkom',
     media: 'placeholder',
     mediaLabel: 'SRE rebrand collage needed',
   },
@@ -41,7 +41,7 @@ const work = [
     role: 'Independent Spatial Analysis',
     summary: 'Mapping how unevenly everyday services are distributed across Bandung through proximity-based accessibility analysis.',
     className: 'work-wide bandung',
-    href: 'https://github.com/cerealtwist/Bandung-Accessibility-Analysis',
+    href: '/work/bandung-accessibility',
     media: 'placeholder',
     mediaLabel: 'Redesigned Bandung accessibility map needed',
   },
@@ -52,7 +52,7 @@ const work = [
     role: 'Independent Analytics Project',
     summary: 'Reading Indonesia’s electrical machinery trade through supply-chain dependence, volatility, and logistics performance.',
     className: 'work-small comtrade',
-    href: 'https://github.com/cerealtwist/Comtrade-Performance-Analytics',
+    href: '/work/comtrade',
     media: 'placeholder',
     mediaLabel: 'Tableau overview image ready to add',
   },
@@ -69,7 +69,7 @@ const work = [
     <div class="work-grid">
       {work.map((item) => (
         <article class={`work-item ${item.className} reveal`}>
-          <a class="work-link" href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener' : undefined} data-cursor>
+          <a class="work-link" href={item.href} data-cursor>
             <div class="work-media">
               {item.media === 'image' ? (
                 <img src={item.mediaSrc} alt={item.mediaLabel} loading="lazy" />
