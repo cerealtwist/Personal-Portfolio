@@ -5,37 +5,29 @@
   <div class="wrap">
     <div class="section-head reveal">
       <p class="section-eyebrow">About</p>
-      <h2>Data, visualized and made useful</h2>
+      <h2>I like the space where data, design, and software overlap.</h2>
     </div>
     <div class="about-grid">
       <div class="reveal">
         <p>
-          I'm in my sixth semester of a B.Sc. in Data Science at Telkom University, focused on
-          data visualization, analytics, big data, and time series forecasting. I like working
-          end to end: building the ETL pipeline and the forecasting model, then the dashboard and
-          visuals that make the results usable for someone who isn't a data scientist.
+          I'm a seventh-semester B.Sc. Data Science student at Telkom University. I tend to enjoy projects where the technical work is only part of the problem: the analysis has to be understood, the system has to fit real constraints, and the final result has to be usable by someone else.
         </p>
         <p>
-          Before this, I studied Software Engineering at SMK Telkom Purwokerto, where I picked up
-          database management, UI/UX design, and web development, a background that still shows
-          up in how I think about interfaces for data products today.
+          Before university, I studied Software Engineering at SMK Telkom Purwokerto. That background in web development, databases, and interface design still shapes how I work today, whether I'm building a data product, mapping an urban problem, or directing a visual system.
         </p>
       </div>
       <div class="honors reveal">
         <div class="honor-item">
-          <div class="h-label">Honor</div>
-          <div class="h-value">Astra 1st 2026 Scholarship Awardee</div>
+          <div class="h-label">Current</div>
+          <div class="h-value">B.Sc. Data Science · Telkom University</div>
         </div>
         <div class="honor-item">
-          <div class="h-label">Honor</div>
-          <div class="h-value">Telkom University Endowment Fund 2026 Awardee</div>
+          <div class="h-label">Honors</div>
+          <div class="h-value">Astra 1st 2026 Scholarship Awardee<br />Telkom University Endowment Fund 2026 Awardee</div>
         </div>
         <div class="honor-item">
-          <div class="h-label">Focus areas</div>
-          <div class="h-value">
-            Data Visualization &middot; Analytics &middot; Big Data &middot; Machine Learning
-            &middot; Time Series
-          </div>
+          <div class="h-label">Interested in</div>
+          <div class="h-value">Data products · Urban analytics · Decision intelligence · Visual communication</div>
         </div>
       </div>
     </div>
@@ -55,17 +47,21 @@
     margin: 0 0 22px 0;
     max-width: 56ch;
   }
-  .honors { display: flex; flex-direction: column; gap: 22px; }
-  .honor-item { padding-top: 18px; }
-  .honor-item .h-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-tertiary);
-    margin-bottom: 6px;
+  .honors { display: flex; flex-direction: column; }
+  .honor-item {
+    padding: 18px 0 20px;
+    border-top: 1px solid var(--line);
   }
-  .honor-item .h-value { font-size: 1rem; font-weight: 600; }
+  .honor-item:last-child { border-bottom: 1px solid var(--line); }
+  .honor-item .h-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-tertiary);
+    margin-bottom: 7px;
+  }
+  .honor-item .h-value { font-size: 1rem; font-weight: 500; line-height: 1.5; }
 
   @media (max-width: 800px) {
     .about-grid { grid-template-columns: 1fr; }
