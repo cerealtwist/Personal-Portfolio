@@ -13,6 +13,11 @@ import {
   siTrello,
   siFigma,
   siGithub,
+  siPostgresql,
+  siDocker,
+  siDjango,
+  siFastapi,
+  siJira,
 } from 'simple-icons';
 
 interface Props {
@@ -22,8 +27,6 @@ interface Props {
 
 const { name, size = 15 } = Astro.props;
 
-// Tier 1: verified against the installed simple-icons package, rendered
-// inline so `currentColor` keeps them monochrome and matched to text color.
 const iconMap: Record<string, { path: string; title: string }> = {
   Python: siPython,
   Pandas: siPandas,
@@ -38,12 +41,13 @@ const iconMap: Record<string, { path: string; title: string }> = {
   Trello: siTrello,
   Figma: siFigma,
   GitHub: siGithub,
+  PostgreSQL: siPostgresql,
+  Docker: siDocker,
+  Django: siDjango,
+  FastAPI: siFastapi,
+  Jira: siJira,
 };
 
-// Tier 2: your own downloaded SVGs. Drop the file into public/images/icons/
-// with this exact filename and it's picked up automatically, no code change
-// needed. These render in their original colors (Freepik/Wikimedia SVGs
-// usually aren't single-color), see README for how to force monochrome.
 const customIconMap: Record<string, string> = {
   Tableau: '/images/icons/tableau.svg',
   VertexAI: '/images/icons/vertex-ai.svg',
@@ -52,7 +56,6 @@ const customIconMap: Record<string, string> = {
   'Power BI': '/images/icons/power-bi.svg',
 };
 
-// Tier 3: text monogram, used until you've added a file for that tool above.
 const monogramMap: Record<string, string> = {
   Excel: 'Ex',
   Tableau: 'Tb',
