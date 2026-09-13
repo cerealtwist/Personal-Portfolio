@@ -1,75 +1,56 @@
 ---
 ---
 
-<nav class="site-nav" aria-label="Primary navigation">
-  <a class="nav-mark" href="#top" aria-label="Back to top">Farand Mahazalfaa</a>
+<nav>
+  <a class="nav-mark" href="#top">Farand Mahazalfaa</a>
   <ul class="nav-links">
     <li><a href="#projects">Work</a></li>
     <li><a href="#experience">Experience</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li><a href="#skills">Tools</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="https://github.com/cerealtwist" target="_blank" rel="noopener">GitHub ↗</a></li>
   </ul>
 </nav>
 
 <style>
-  .site-nav {
+  nav {
     position: fixed;
-    inset: 0 0 auto 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 18px var(--pad);
-    border-bottom: 1px solid rgba(231,231,227,.8);
-    background: rgba(252,252,251,.86);
-    backdrop-filter: blur(14px);
+    padding: 20px var(--pad);
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.84);
   }
-
   .nav-mark {
-    font-size: .84rem;
-    font-weight: 650;
-    letter-spacing: -.01em;
-    white-space: nowrap;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: -0.01em;
   }
-
   .nav-links {
     display: flex;
-    align-items: center;
-    gap: clamp(14px, 2.3vw, 30px);
+    gap: clamp(16px, 2.4vw, 30px);
     list-style: none;
     margin: 0;
     padding: 0;
   }
-
   .nav-links a {
-    position: relative;
-    color: var(--text-secondary);
-    font-size: .8rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    transition: color .2s var(--ease);
+    color: var(--text-secondary);
+    transition: color 0.2s var(--ease);
   }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 100%;
-    bottom: -5px;
-    height: 1px;
-    background: currentColor;
-    transition: right .28s var(--ease);
-  }
-
   .nav-links a:hover { color: var(--text); }
-  .nav-links a:hover::after { right: 0; }
 
   @media (max-width: 760px) {
-    .site-nav { padding-top: 15px; padding-bottom: 15px; }
-    .nav-mark { font-size: .78rem; }
-    .nav-links li:nth-child(2),
+    .nav-mark { font-size: 0.82rem; }
     .nav-links li:nth-child(3),
-    .nav-links li:last-child { display: none; }
+    .nav-links li:nth-child(4) { display: none; }
+    .nav-links { gap: 16px; }
   }
 </style>
