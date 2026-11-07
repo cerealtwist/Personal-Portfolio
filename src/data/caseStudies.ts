@@ -1,5 +1,20 @@
+export type Category = 'data' | 'product' | 'design';
+
+export const categories: { id: Category; label: string; short: string }[] = [
+  { id: 'data', label: 'Data & Analytics', short: 'Data' },
+  { id: 'product', label: 'Product & Engineering', short: 'Product' },
+  { id: 'design', label: 'Design & Leadership', short: 'Design' },
+];
+
 export interface CaseStudy {
   slug: string;
+  /** Short uppercase label shown above the title in the works list. */
+  tag: string;
+  /** One-line summary for the works list. */
+  summary: string;
+  categories: Category[];
+  /** Year the work is grouped under in the list. */
+  group: string;
   number: string;
   title: string;
   year: string;
@@ -19,6 +34,10 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'amdc-pocket',
+    tag: 'Astra Motor · Astra1st',
+    summary: 'Building an internal learning platform around access, maintainability, and real organizational constraints.',
+    categories: ['product'],
+    group: '2026',
     number: '01',
     title: 'AMDC Pocket',
     year: '2026',
@@ -38,6 +57,10 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'narapangan',
+    tag: 'Telkom University · Capstone',
+    summary: 'Turning volatile food-price forecasts into procurement decisions for small food businesses.',
+    categories: ['data', 'product'],
+    group: '2026',
     number: '02',
     title: 'Narapangan',
     year: '2026',
@@ -59,6 +82,10 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'sre-telkom',
+    tag: 'SRE Telkom University',
+    summary: 'Rebuilding the visual identity and communication system of a growing sustainability organization.',
+    categories: ['design'],
+    group: '2025',
     number: '03',
     title: 'SRE Telkom University',
     year: '2023–2025',
@@ -78,6 +105,10 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'bandung-accessibility',
+    tag: 'Independent · Spatial analysis',
+    summary: 'Mapping how unevenly everyday services are distributed across Bandung.',
+    categories: ['data'],
+    group: '2026',
     number: '04',
     title: 'Bandung Accessibility',
     year: '2026',
@@ -99,6 +130,10 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'comtrade',
+    tag: 'Independent · Supply chain',
+    summary: 'Reading Indonesia’s electrical machinery trade through dependence, volatility, and logistics performance.',
+    categories: ['data'],
+    group: '2026',
     number: '05',
     title: 'Comtrade Performance Analytics',
     year: '2026',

@@ -1,0 +1,851 @@
+---
+import { caseStudies, categories } from '../../data/caseStudies';
+import { experience, leadership } from '../../data/experience';
+import { toolGroups } from '../../data/tools';
+import TechIcon from '../TechIcon.astro';
+import OrgLogo from '../OrgLogo.astro';
+import { url } from '../../lib/url';
+
+const EMAIL = 'farand.dee@gmail.com';
+const CV = url('/Farand_Mahazalfaa_CV.pdf');
+
+const works = caseStudies;
+const total = String(works.length).padStart(2, '0');
+
+// Group works by year, newest first, keeping data order inside a group.
+const groups = [...new Set(works.map((w) => w.group))]
+  .sort((a, b) => Number(b) - Number(a))
+  .map((year) => ({ year, items: works.filter((w) => w.group === year) }));
+
+const code = (w: (typeof works)[number]) =>
+  `FM-${w.number}.${w.group.slice(-2)}/${w.slug.slice(0, 4).toUpperCase()}`;
+
+const sideLinks = [
+  { label: 'Experience', view: 'experience' },
+  { label: 'Leadership', view: 'leadership' },
+  { label: 'Toolkit', view: 'toolkit' },
+  { label: 'About', view: 'about' },
+];
+---
+
+<div class="shell" data-shell>
+  <!-- LEFT: identity + index of works -->
+  <aside class="left">
+    <div class="left-inner">
+      <header class="identity">
+        <h1 class="name">Farand Mahazalfaa</h1>
+        <p class="roles">Data Science / Product Systems / Visual Communication</p>
+
+        <div class="intro">
+          <div class="portrait" aria-label="Portrait placeholder">
+            <span>FM</span>
+          </div>
+          <p>
+            Hi, I'm Farand, a Data Science student at Telkom University working where analytics,
+            software, and design overlap, making complex problems easier to understand and use.
+            Reach me at <a href={`mailto:${EMAIL}`}>{EMAIL}</a>, or stay and look through the work.
+          </p>
+        </div>
+      </header>
+
+      <section class="works" aria-labelledby="works-title">
+        <h2 class="works-tab" id="works-title">Selected Works</h2>
+        <div class="works-box">
+          <div class="works-toolbar">
+            <div class="filters" role="group" aria-label="Filter works by category">
+              {categories.map((c) => (
+                <button type="button" class="chip" data-filter={c.id} aria-pressed="false" title={c.label}>
+                  <span class={`swatch swatch-${c.id}`} aria-hidden="true"></span>
+                  {c.short}
+                </button>
+              ))}
+            </div>
+            <div class="view-toggle" role="group" aria-label="Layout">
+              <button type="button" data-layout="list" aria-pressed="true" aria-label="List view">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v2H2zM2 7h12v2H2zM2 11h12v2H2z" /></svg>
+              </button>
+              <button type="button" data-layout="grid" aria-pressed="false" aria-label="Grid view">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="works-scroll" data-works data-layout-mode="list">
+            {groups.map((g) => (
+              <div class="year-group" data-year-group>
+                <p class="year"><span>{g.year}</span></p>
+                <ul class="rows">
+                  {g.items.map((w) => (
+                    <li data-cats={w.categories.join(' ')}>
+                      <a class="row" href={url(`/work/${w.slug}`)} data-view-link={`work/${w.slug}`}>
+                        <span class="row-tag">{w.tag}</span>
+                        <span class="row-body">
+                          <span class="row-text">
+                            <span class="row-title">{w.title}</span>
+                            <span class="row-summary">{w.summary}</span>
+                          </span>
+                          <span class="row-thumb" aria-hidden="true">
+                            {w.hero ? <img src={url(w.hero)} alt="" loading="lazy" /> : <span>{w.number}</span>}
+                          </span>
+                        </span>
+                        <span class="row-cats" aria-hidden="true">
+                          {w.categories.map((c) => <span class={`swatch swatch-${c}`}></span>)}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <p class="empty" data-empty hidden>No work in this combination yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <nav class="links" aria-label="More about Farand">
+        {sideLinks.map((l) => (
+          <a href={`#${l.view}`} data-view-link={l.view}>{l.label}</a>
+        ))}
+        <a href={CV} download>Résumé</a>
+        <a href="https://github.com/cerealtwist" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/farandee/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+
+    <footer class="left-foot">
+      <span class="mark">FM</span>
+      <p>
+        © 2026 Farand Mahazalfaa. Bandung, Indonesia. Built with Astro and deployed on GitHub Pages.
+        Last updated November 2026.
+      </p>
+    </footer>
+  </aside>
+
+  <span class="notch" aria-hidden="true"></span>
+
+  <!-- RIGHT: detail panel -->
+  <main class="panel" data-panel tabindex="-1" aria-live="polite">
+    <button type="button" class="panel-close" data-close aria-label="Close panel">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" /></svg>
+    </button>
+    <p class="vertical">Data / Product / Design</p>
+
+    <div class="panel-inner">
+      {works.map((w, i) => {
+        const prev = works[(i - 1 + works.length) % works.length];
+        const next = works[(i + 1) % works.length];
+        return (
+          <article class="view" data-view={`work/${w.slug}`} hidden>
+            <figure class="frame">
+              <div class="screen">
+                {w.hero ? (
+                  <img src={url(w.hero)} alt={w.heroAlt ?? w.title} />
+                ) : (
+                  <div class="screen-placeholder">
+                    <span class="ph-num">{w.number}</span>
+                    <span class="ph-label">{w.placeholderLabel ?? 'Visual to be added'}</span>
+                  </div>
+                )}
+                <span class="screen-meta left-meta">Work {w.number} / {total}</span>
+                <span class="screen-meta right-meta">{code(w)}</span>
+                <a class="step prev" href={url(`/work/${prev.slug}`)} data-view-link={`work/${prev.slug}`} aria-label={`Previous: ${prev.title}`}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" /></svg>
+                </a>
+                <a class="step next" href={url(`/work/${next.slug}`)} data-view-link={`work/${next.slug}`} aria-label={`Next: ${next.title}`}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg>
+                </a>
+              </div>
+            </figure>
+
+            <h2 class="view-title">{w.title}</h2>
+            <dl class="meta">
+              <div><dt>Year</dt><dd>{w.year}</dd></div>
+              <div><dt>Role</dt><dd>{w.role}</dd></div>
+              <div><dt>Context</dt><dd>{w.context}</dd></div>
+            </dl>
+            <hr />
+
+            <div class="prose">
+              <p class="lead">{w.intro}</p>
+              <p>{w.problem}</p>
+              <h3>What I did</h3>
+              <ul>{w.contribution.map((c) => <li>{c}</li>)}</ul>
+              <h3>Takeaway</h3>
+              <p>{w.learning}</p>
+            </div>
+
+            <div class="actions">
+              <a class="btn" href={url(`/work/${w.slug}`)}>Read full case study</a>
+              {w.externalUrl && (
+                <a class="btn ghost" href={w.externalUrl} target="_blank" rel="noopener">{w.externalLabel ?? 'Open link'} ↗</a>
+              )}
+            </div>
+          </article>
+        );
+      })}
+
+      <article class="view" data-view="experience" hidden>
+        <p class="eyebrow">Experience</p>
+        <h2 class="view-title">Where I've worked</h2>
+        <hr />
+        <ol class="timeline">
+          {experience.map((e) => (
+            <li>
+              <OrgLogo name={e.org} logo={e.logo} size={40} />
+              <div>
+                <p class="t-date">{e.date}</p>
+                <h3>{e.role}</h3>
+                <p class="t-org">{e.org}</p>
+                <ul>{e.bullets.map((b) => <li>{b}</li>)}</ul>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </article>
+
+      <article class="view" data-view="leadership" hidden>
+        <p class="eyebrow">Leadership</p>
+        <h2 class="view-title">Organizations</h2>
+        <hr />
+        <ol class="timeline">
+          {leadership.map((e) => (
+            <li>
+              <OrgLogo name={e.org} logo={e.logo} size={40} />
+              <div>
+                <p class="t-date">{e.date}</p>
+                <h3>{e.role}</h3>
+                <p class="t-org">{e.org}</p>
+                <p class="t-desc">{e.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </article>
+
+      <article class="view" data-view="toolkit" hidden>
+        <p class="eyebrow">Toolkit</p>
+        <h2 class="view-title">Tools I work with</h2>
+        <hr />
+        {toolGroups.map((g) => (
+          <div class="tool-group">
+            <h3>{g.label}</h3>
+            <div class="tools">
+              {g.tools.map((t) => (
+                <span class="tool"><TechIcon name={t} size={18} />{t}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </article>
+
+      <article class="view" data-view="about" hidden>
+        <p class="eyebrow">About</p>
+        <h2 class="view-title">Where data, design, and software overlap</h2>
+        <hr />
+        <div class="prose">
+          <p class="lead">
+            I'm a seventh-semester B.Sc. Data Science student at Telkom University. I enjoy projects
+            where the technical work is only part of the problem: the analysis has to be understood,
+            the system has to fit real constraints, and the result has to be usable by someone else.
+          </p>
+          <p>
+            Before university, I studied Software Engineering at SMK Telkom Purwokerto. That
+            background in web development, databases, and interface design still shapes how I work,
+            whether I'm building a data product, mapping an urban problem, or directing a visual system.
+          </p>
+        </div>
+        <dl class="facts">
+          <div><dt>Current</dt><dd>B.Sc. Data Science, Telkom University</dd></div>
+          <div><dt>Honors</dt><dd>Astra 1st 2026 Scholarship Awardee<br />Telkom University Endowment Fund 2026 Awardee</dd></div>
+          <div><dt>Interested in</dt><dd>Data products, urban analytics, decision intelligence, visual communication</dd></div>
+        </dl>
+      </article>
+    </div>
+  </main>
+</div>
+
+<script>
+  const shell = document.querySelector<HTMLElement>('[data-shell]')!;
+  const panel = document.querySelector<HTMLElement>('[data-panel]')!;
+  const views = [...document.querySelectorAll<HTMLElement>('[data-view]')];
+  const mobile = window.matchMedia('(max-width: 959px)');
+  const firstWork = views.find((v) => v.dataset.view!.startsWith('work/'))!.dataset.view!;
+
+  function show(id: string | null, focus = false) {
+    const target = id && views.find((v) => v.dataset.view === id);
+    if (!target) {
+      shell.classList.remove('panel-open');
+      document.documentElement.classList.remove('lock');
+      if (!mobile.matches) show(firstWork);
+      return;
+    }
+    views.forEach((v) => (v.hidden = v !== target));
+    document.querySelectorAll('[data-view-link]').forEach((a) => {
+      a.toggleAttribute('aria-current', (a as HTMLElement).dataset.viewLink === id);
+    });
+    panel.scrollTop = 0;
+    if (mobile.matches) {
+      shell.classList.add('panel-open');
+      document.documentElement.classList.add('lock');
+    }
+    if (focus) panel.focus({ preventScroll: true });
+  }
+
+  const fromHash = () => decodeURIComponent(location.hash.slice(1)) || null;
+
+  document.addEventListener('click', (e) => {
+    const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-view-link]');
+    if (!link || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    const id = link.dataset.viewLink!;
+    if (fromHash() !== id) history.pushState(null, '', `#${id}`);
+    show(id, true);
+  });
+
+  window.addEventListener('popstate', () => show(fromHash()));
+
+  document.querySelector('[data-close]')!.addEventListener('click', () => {
+    history.pushState(null, '', location.pathname + location.search);
+    show(null);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && shell.classList.contains('panel-open')) {
+      (document.querySelector('[data-close]') as HTMLButtonElement).click();
+    }
+  });
+
+  mobile.addEventListener('change', () => show(fromHash()));
+  show(fromHash() ?? (mobile.matches ? null : firstWork));
+
+  const works = document.querySelector<HTMLElement>('[data-works]')!;
+
+  // Category filters: toggle any combination; none selected shows everything.
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  function applyFilters() {
+    const active = chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.filter!);
+    let visible = 0;
+    document.querySelectorAll<HTMLElement>('[data-year-group]').forEach((group) => {
+      let groupVisible = 0;
+      group.querySelectorAll<HTMLElement>('li[data-cats]').forEach((li) => {
+        const cats = li.dataset.cats!.split(' ');
+        const on = active.length === 0 || active.some((a) => cats.includes(a));
+        li.hidden = !on;
+        if (on) groupVisible++;
+      });
+      group.hidden = groupVisible === 0;
+      visible += groupVisible;
+    });
+    empty.hidden = visible > 0;
+  }
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      chip.setAttribute('aria-pressed', String(chip.getAttribute('aria-pressed') !== 'true'));
+      applyFilters();
+      works.scrollTop = 0;
+    })
+  );
+
+  // List / grid toggle
+  document.querySelectorAll<HTMLButtonElement>('[data-layout]').forEach((btn, _, all) =>
+    btn.addEventListener('click', () => {
+      all.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      works.dataset.layoutMode = btn.dataset.layout!;
+    })
+  );
+</script>
+
+<style>
+  .shell {
+    --paper: #fafaf9;
+    --paper-2: #f2f2f0;
+    --ink: #111214;
+    --ink-2: #5b6068;
+    --ink-3: #8d929a;
+    --rule: #e1e2e4;
+    --panel: #141619;
+    --panel-2: #1c1f23;
+    --panel-ink: #f2f3f5;
+    --panel-ink-2: #a3a8b0;
+    --panel-rule: #2c3036;
+    --accent: #235f9c;
+    --c-data: #3f7fbf;
+    --c-product: #2f9e7c;
+    --c-design: #c0793a;
+    --left-w: clamp(420px, 41vw, 620px);
+    --gutter: clamp(22px, 2.6vw, 44px);
+
+    display: grid;
+    grid-template-columns: var(--left-w) 1fr;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  /* ---------- left ---------- */
+  .left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .left-inner {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.4vh, 28px);
+    padding: clamp(28px, 4.5vh, 52px) var(--gutter) clamp(16px, 2vh, 24px);
+  }
+
+  .name {
+    margin: 0;
+    font-size: clamp(2rem, 3.1vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -.045em;
+  }
+  .roles {
+    margin: 14px 0 0;
+    color: var(--accent);
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .intro {
+    display: grid;
+    grid-template-columns: clamp(72px, 6vw, 96px) 1fr;
+    gap: 18px;
+    margin-top: clamp(16px, 2.4vh, 26px);
+    align-items: start;
+  }
+  .portrait {
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule);
+    background:
+      linear-gradient(var(--rule) 1px, transparent 1px) 0 0 / 12px 12px,
+      var(--paper-2);
+    color: var(--ink-3);
+    font-weight: 600;
+    letter-spacing: .04em;
+  }
+  .intro p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: .92rem;
+    line-height: 1.6;
+  }
+  .intro a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* works box: folder-tab heading + bordered container */
+  .works {
+    padding: 0;
+    border: 0;
+    flex: 1;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  .works-tab {
+    max-width: none;
+    line-height: 1.2;
+    position: relative;
+    align-self: flex-start;
+    margin: 0;
+    padding: 10px 44px 8px 18px;
+    border: 1px solid var(--ink);
+    border-bottom: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    background: var(--paper);
+    clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 100%, 0 100%);
+    z-index: 1;
+    margin-bottom: -1px;
+  }
+  .works-tab::after {
+    /* diagonal edge line of the tab */
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 100%;
+    background: linear-gradient(to top right, transparent calc(50% - .7px), var(--ink) calc(50% - .5px), var(--ink) calc(50% + .5px), transparent calc(50% + .7px));
+  }
+  .works-box {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ink);
+  }
+  .works-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 9px;
+    border: 1px dashed var(--ink-3);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink-2);
+    font: inherit;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--ink); }
+  .chip[aria-pressed='true'] { border-style: solid; border-color: var(--ink); background: var(--ink); color: var(--paper); }
+  .swatch { width: 8px; height: 8px; display: inline-block; flex-shrink: 0; }
+  .swatch-data { background: var(--c-data); }
+  .swatch-product { background: var(--c-product); }
+  .swatch-design { background: var(--c-design); }
+
+  .view-toggle { display: flex; gap: 2px; flex-shrink: 0; }
+  .view-toggle button {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: var(--ink-3);
+    cursor: pointer;
+  }
+  .view-toggle button[aria-pressed='true'] { background: var(--paper-2); color: var(--ink); }
+  .view-toggle svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .works-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 6px 16px 16px;
+    scrollbar-width: thin;
+  }
+  .year {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 8px;
+    color: var(--ink-2);
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  .year::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+  .row {
+    position: relative;
+    display: block;
+    border: 1px solid var(--rule);
+    background: #fff;
+    transition: border-color .15s, background .15s;
+  }
+  .row:hover { border-color: var(--ink-3); }
+  .row[aria-current] { border-color: var(--ink); background: var(--paper-2); }
+  .row-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+  .row[aria-current] .row-tag { background: var(--ink); color: var(--paper); }
+  .row-body {
+    display: grid;
+    grid-template-columns: 1fr 92px;
+    gap: 14px;
+    padding: 8px 12px 12px;
+    align-items: end;
+  }
+  .row-text { display: grid; gap: 4px; min-width: 0; }
+  .row-title { font-size: 1.02rem; font-weight: 600; letter-spacing: -.015em; }
+  .row-summary { color: var(--ink-2); font-size: .8rem; line-height: 1.45; }
+  .row-thumb {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    color: var(--ink-3);
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  .row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .row-cats { position: absolute; top: 8px; right: 10px; display: flex; gap: 3px; }
+
+  /* grid layout mode */
+  [data-layout-mode='grid'] .rows { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-layout-mode='grid'] .row-body { grid-template-columns: 1fr; }
+  [data-layout-mode='grid'] .row-thumb { order: -1; aspect-ratio: 16 / 9; }
+  [data-layout-mode='grid'] .row-summary { display: none; }
+  [data-layout-mode='grid'] .row-title { font-size: .92rem; }
+  [data-layout-mode='grid'] .row-cats { display: none; }
+
+  .empty { color: var(--ink-3); font-size: .85rem; padding: 18px 0; }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+  .links a {
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .links a:hover, .links a[aria-current] { color: var(--accent); }
+
+  .left-foot {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px var(--gutter);
+    border-top: 1px solid var(--rule);
+  }
+  .mark { font-size: 1.5rem; font-weight: 700; letter-spacing: -.06em; }
+  .left-foot p { margin: 0; color: var(--ink-3); font-size: .68rem; line-height: 1.5; letter-spacing: .02em; text-transform: uppercase; }
+
+  /* notch pointing from list to panel */
+  .notch {
+    position: absolute;
+    left: var(--left-w);
+    top: 50%;
+    width: 18px;
+    height: 36px;
+    transform: translateY(-50%);
+    background: var(--paper);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    z-index: 3;
+  }
+
+  /* ---------- right panel ---------- */
+  .panel {
+    position: relative;
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--panel);
+    color: var(--panel-ink);
+    outline: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--panel-rule) transparent;
+  }
+  .panel-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(28px, 4.5vh, 52px) clamp(48px, 5vw, 88px) 72px;
+  }
+  .vertical {
+    position: fixed;
+    top: 50%;
+    right: 14px;
+    margin: 0;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    color: var(--panel-ink-2);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    opacity: .7;
+    pointer-events: none;
+  }
+  .panel-close { display: none; }
+
+  .view { animation: enter .35s cubic-bezier(.16, 1, .3, 1); }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .frame {
+    margin: 0 0 clamp(24px, 3.5vh, 36px);
+    padding: 10px;
+    border: 1px solid var(--panel-rule);
+    border-radius: 22px;
+    background: var(--panel-2);
+  }
+  .screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #0c0d0f;
+  }
+  .screen > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .screen-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    text-align: center;
+    background:
+      linear-gradient(var(--panel-rule) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, var(--panel-rule) 1px, transparent 1px) 0 0 / 40px 40px;
+  }
+  .ph-num { font-size: clamp(3rem, 8vw, 6rem); font-weight: 600; letter-spacing: -.06em; line-height: 1; color: var(--panel-ink); opacity: .9; }
+  .ph-label { max-width: 32ch; color: var(--panel-ink-2); font-size: .78rem; padding: 6px 10px; background: var(--panel); }
+  .screen-meta {
+    position: absolute;
+    bottom: 14px;
+    color: var(--panel-ink-2);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 6px rgba(0,0,0,.6);
+  }
+  .left-meta { left: 18px; }
+  .right-meta { right: 18px; }
+  .step {
+    position: absolute;
+    top: 50%;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 50%;
+    background: rgba(12,13,15,.6);
+    backdrop-filter: blur(6px);
+    color: var(--panel-ink);
+    opacity: 0;
+    transition: opacity .2s, background .2s;
+  }
+  .step svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .prev { left: 14px; }
+  .next { right: 14px; }
+  .screen:hover .step, .step:focus-visible { opacity: 1; }
+  .step:hover { background: rgba(12,13,15,.85); }
+
+  .eyebrow { margin: 0 0 10px; color: var(--panel-ink-2); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .view-title {
+    max-width: 22ch;
+    margin: 0;
+    font-size: clamp(2rem, 3.6vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -.04em;
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 18px 0 0; }
+  .meta div { display: flex; gap: 10px; align-items: baseline; }
+  .meta dt { color: var(--panel-ink-2); font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .meta dd { margin: 0; font-size: .86rem; }
+  hr { border: 0; height: 1px; margin: 26px 0; background: var(--panel-rule); }
+
+  .prose { max-width: 64ch; color: var(--panel-ink-2); font-size: .98rem; line-height: 1.7; }
+  .prose p { margin: 0 0 16px; }
+  .prose .lead { color: var(--panel-ink); font-size: 1.12rem; line-height: 1.55; font-weight: 500; }
+  .prose h3 { margin: 28px 0 10px; color: var(--panel-ink); font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .prose ul { margin: 0; padding-left: 18px; }
+  .prose li { margin-bottom: 6px; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .btn {
+    padding: 11px 18px;
+    border: 1px solid var(--panel-ink);
+    background: var(--panel-ink);
+    color: var(--panel);
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  .btn.ghost { background: transparent; color: var(--panel-ink); border-color: var(--panel-rule); }
+  .btn:hover { opacity: .85; }
+
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 30px; }
+  .timeline > li { display: grid; grid-template-columns: 40px 1fr; gap: 18px; }
+  .t-date { margin: 0 0 4px; color: var(--panel-ink-2); font-size: .74rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .timeline h3 { margin: 0; font-size: 1.12rem; font-weight: 600; letter-spacing: -.01em; }
+  .t-org { margin: 2px 0 10px; color: var(--panel-ink-2); font-size: .88rem; }
+  .timeline ul { margin: 0; padding-left: 18px; color: var(--panel-ink-2); font-size: .9rem; line-height: 1.6; }
+  .timeline ul li { margin-bottom: 5px; }
+  .t-desc { margin: 0; color: var(--panel-ink-2); font-size: .9rem; line-height: 1.6; }
+
+  .tool-group { padding: 18px 0; border-bottom: 1px solid var(--panel-rule); }
+  .tool-group h3 { margin: 0 0 14px; color: var(--panel-ink-2); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+  .tool { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+
+  .facts { display: grid; gap: 0; margin: 28px 0 0; border-top: 1px solid var(--panel-rule); }
+  .facts div { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--panel-rule); }
+  .facts dt { color: var(--panel-ink-2); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .facts dd { margin: 0; font-size: .92rem; line-height: 1.55; }
+
+  /* ---------- small screens: list first, panel slides over ---------- */
+  @media (max-width: 959px) {
+    .shell { display: block; height: auto; overflow: visible; }
+    .left { border-right: 0; }
+    .left-inner { padding-top: 32px; }
+    .works { min-height: 0; }
+    .works-scroll { overflow: visible; }
+    .notch, .vertical { display: none; }
+
+    .panel {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      transform: translateY(100%);
+      transition: transform .4s cubic-bezier(.16, 1, .3, 1);
+      visibility: hidden;
+    }
+    .panel-open .panel { transform: none; visibility: visible; }
+    .panel-inner { padding: 64px 20px 56px; }
+    .panel-close {
+      position: sticky;
+      top: 12px;
+      margin: 12px 12px -52px auto;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--panel-rule);
+      border-radius: 50%;
+      background: var(--panel-2);
+      color: var(--panel-ink);
+    }
+    .panel-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.6; }
+    .step { opacity: 1; width: 32px; height: 32px; }
+    .facts div { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  @media (max-width: 520px) {
+    .row-body { grid-template-columns: 1fr 72px; }
+    .chip { font-size: .62rem; }
+  }
+</style>
+
+<style is:global>
+  html.lock { overflow: hidden; }
+</style>

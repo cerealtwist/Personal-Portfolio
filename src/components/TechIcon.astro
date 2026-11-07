@@ -19,6 +19,7 @@ import {
   siFastapi,
   siJira,
 } from 'simple-icons';
+import { url } from '../lib/url';
 
 interface Props {
   name: string;
@@ -96,7 +97,7 @@ const fallbackColor = fallbackColorMap[name] ?? '#235f9c';
         <span class="monogram" style={`color:${fallbackColor};font-size:${size * .48}px;`}>{monogram}</span>
         <img
           class="custom-icon"
-          src={customSrc}
+          src={url(customSrc)}
           alt={name}
           loading="lazy"
           onload="this.previousElementSibling.style.display='none'; this.style.opacity='1';"

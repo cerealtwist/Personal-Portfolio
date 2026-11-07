@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Cursor from '../../components/Cursor.astro';
 import { caseStudies } from '../../data/caseStudies';
+import { url } from '../../lib/url';
 
 export function getStaticPaths() {
   return caseStudies.map((project) => ({
@@ -19,13 +20,13 @@ const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
   <Cursor />
 
   <header class="case-nav">
-    <a href="/">Farand Mahazalfaa</a>
-    <a href="/#projects">All work</a>
+    <a href={url('/')}>Farand Mahazalfaa</a>
+    <a href={url(`/#work/${project.slug}`)}>All work</a>
   </header>
 
   <main>
     <section class="case-hero wrap">
-      <div class="case-kicker">{project.number} / 05 · {project.year}</div>
+      <div class="case-kicker">{project.number} / {String(caseStudies.length).padStart(2, '0')} · {project.year}</div>
       <h1>{project.title}</h1>
       <p class="case-intro">{project.intro}</p>
 
@@ -40,7 +41,7 @@ const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
 
     <section class="case-media wrap">
       {project.hero ? (
-        <img src={project.hero} alt={project.heroAlt || project.title} />
+        <img src={url(project.hero)} alt={project.heroAlt || project.title} />
       ) : (
         <div class="case-placeholder"><span>{project.placeholderLabel}</span></div>
       )}
@@ -69,7 +70,7 @@ const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
 
     <section class="next-project wrap">
       <p>Next project</p>
-      <a href={`/work/${nextProject.slug}`}>
+      <a href={url(`/work/${nextProject.slug}`)}>
         <span>{nextProject.number}</span>
         <strong>{nextProject.title}</strong>
         <span>↗</span>
