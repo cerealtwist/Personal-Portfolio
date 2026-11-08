@@ -11,6 +11,7 @@ export const experience: ExperienceEntry[] = [
     date: 'Oct 2026 – Present',
     role: 'AI Engineer Intern',
     org: 'Rey.id',
+    logo: '/images/logos/rey.png',
     bullets: [
       'Built a Python evaluation harness (Jupyter, pydantic-ai) for LLM-based diagnosis extraction from handwritten medical documents, and tuned the extraction instructions to raise diagnosis-name accuracy by 40 percentage points with zero regressions.',
       'Benchmarked 9 LLM configurations (Gemini, GPT, Claude) through a LiteLLM gateway on accuracy, cost, and latency to guide model selection for production extraction.',

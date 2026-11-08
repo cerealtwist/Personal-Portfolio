@@ -3,6 +3,7 @@ import { caseStudies, categories } from '../../data/caseStudies';
 import { experience, leadership } from '../../data/experience';
 import { toolGroups } from '../../data/tools';
 import { profile } from '../../data/profile';
+import { honors, certifications } from '../../data/recognition';
 import TechIcon from '../TechIcon.astro';
 import OrgLogo from '../OrgLogo.astro';
 import { url } from '../../lib/url';
@@ -18,6 +19,7 @@ const groups = [...new Set(works.map((w) => w.group))]
 const panelLinks = [
   { label: 'Experience', view: 'experience' },
   { label: 'Leadership', view: 'leadership' },
+  { label: 'Recognition', view: 'recognition' },
   { label: 'Toolkit', view: 'toolkit' },
   { label: 'About', view: 'about' },
 ];
@@ -58,22 +60,16 @@ const cursors = [
             )}
           </div>
           <p>
-            Hi, I'm Farand, a Data Science student at Telkom University working where analytics,
-            AI, and design overlap, making complex problems easier to understand and use.
+            Hi, I'm Farand, a Data Science student at Telkom University and an{' '}
+            <a href="#recognition" data-view-link="recognition" class="bio-award" data-award>Astra 1st 2026 Scholarship Awardee</a>.
+            I work where analytics, AI, and design overlap, making complex problems easier to understand and use.
             Reach me at <a href={`mailto:${profile.email}`}>{profile.email}</a>.
           </p>
         </div>
 
-        <a class="award enter" style="--i:3" href="#about" data-view-link="about" data-award>
-          <img src={url(profile.award.logo)} alt="Astra 1st 2026" width="96" height="37" />
-          <span class="award-text">
-            <strong>{profile.award.title}</strong>
-            <span>Also {profile.otherHonors.join(', ')}</span>
-          </span>
-        </a>
       </header>
 
-      <section class="works enter" style="--i:4" aria-labelledby="works-title">
+      <section class="works enter" style="--i:3" aria-labelledby="works-title">
         <div class="works-head">
           <h2 id="works-title">Selected work</h2>
           <span class="works-count" data-count>{works.length} projects</span>
@@ -106,10 +102,10 @@ const cursors = [
                   <li data-cats={w.categories.join(' ')}>
                     <a class="row" href={url(`/work/${w.slug}`)} data-view-link={`work/${w.slug}`} data-title={w.title}>
                       <span class="row-thumb" aria-hidden="true">
-                        {w.hero ? (
+                        {w.brandLogo ? (
+                          <canvas data-logo={url(w.brandLogo)} data-bg={w.brandBg} data-w="240" data-h="180"></canvas>
+                        ) : w.hero ? (
                           <img src={url(w.hero)} alt="" loading="lazy" />
-                        ) : w.brandLogo ? (
-                          <canvas data-logo={url(w.brandLogo)} data-w="240" data-h="180"></canvas>
                         ) : (
                           <canvas data-art data-seed={Number(w.number)} data-label={w.number} data-cols="96"></canvas>
                         )}
@@ -132,7 +128,7 @@ const cursors = [
         </div>
       </section>
 
-      <nav class="links enter" style="--i:5" aria-label="More about Farand">
+      <nav class="links enter" style="--i:4" aria-label="More about Farand">
         <div class="links-group">
           {panelLinks.map((l) => (
             <a href={`#${l.view}`} data-view-link={l.view}>{l.label}</a>
@@ -167,7 +163,7 @@ const cursors = [
     </button>
 
     <section class="view home" data-view="home" hidden aria-label="Introduction">
-      <div class="stage">
+      <div class="stage" aria-hidden="true">
         {floatTools.map((t, i) => (
           <span class="float" style={`--x:${t.x}%;--y:${t.y}%;--d:${t.d};--delay:${i * -1.3}s;--n:${i}`}>
             <span class="bob"><span class="tool-card"><TechIcon name={t.name} size={22} /></span></span>
@@ -181,12 +177,15 @@ const cursors = [
             </span>
           </span>
         ))}
-        <span class="float award-float" style="--x:7%;--y:46%;--d:8;--delay:-3s;--n:10">
+        <span class="float" style="--x:7%;--y:44%;--d:8;--delay:-3s;--n:10">
           <span class="bob">
-            <a class="award-card" href="#about" data-view-link="about" data-award>
-              <img src={url(profile.award.logo)} alt="" width="120" height="47" />
-              <span>{profile.award.title}</span>
-            </a>
+            <span class="chat">
+              <span class="chat-avatar">FM</span>
+              <span class="chat-body">
+                <span class="chat-head"><strong>Farand</strong> just now</span>
+                <span>Pick a project on the left and I'll walk you through it.</span>
+              </span>
+            </span>
           </span>
         </span>
       </div>
@@ -217,7 +216,7 @@ const cursors = [
                     <canvas class="screen-canvas" data-reveal-img aria-hidden="true"></canvas>
                   </>
                 ) : w.brandLogo ? (
-                  <canvas class="screen-canvas" data-logo={url(w.brandLogo)} data-w="960" data-h="600" data-reveal role="img" aria-label={`${w.title} logo`}></canvas>
+                  <canvas class="screen-canvas" data-logo={url(w.brandLogo)} data-bg={w.brandBg} data-w="960" data-h="600" data-reveal role="img" aria-label={`${w.title} logo`}></canvas>
                 ) : (
                   <canvas class="screen-canvas pixelated" data-art data-seed={Number(w.number)} data-label={w.number} data-cols="240" data-reveal role="img" aria-label={`${w.title}: visual coming soon`}></canvas>
                 )}
@@ -288,6 +287,36 @@ const cursors = [
         </ol>
       </article>
 
+      <article class="view" data-view="recognition" hidden>
+        <div class="rec-head">
+          <h2 class="view-title">Recognition</h2>
+          <button type="button" class="trophy" data-trophy aria-label="Trophy. Click it.">🏆</button>
+        </div>
+        <ol class="rec-list">
+          {honors.map((r, i) => (
+            <li class:list={['rec', { featured: i === 0 }]}>
+              {r.logo && <span class="rec-logo"><img src={url(r.logo)} alt="" /></span>}
+              <div>
+                <h3>{r.title}</h3>
+                <p class="t-org">{r.org}<span class="t-date">{r.year}</span></p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <h3 class="rec-sub">Certifications</h3>
+        <ol class="rec-list">
+          {certifications.map((r) => (
+            <li class="rec">
+              <div>
+                <h3>{r.title}</h3>
+                <p class="t-org">{r.org}<span class="t-date">{r.year}</span></p>
+                {r.note && <p class="t-desc">{r.note}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </article>
+
       <article class="view" data-view="toolkit" hidden>
         <h2 class="view-title">Toolkit</h2>
         {toolGroups.map((g) => (
@@ -317,8 +346,8 @@ const cursors = [
           </p>
         </div>
         <dl class="facts">
-          <div><dt>Honors</dt><dd class="honors"><img src={url(profile.award.logo)} alt="Astra 1st 2026" width="110" height="43" /><strong>{profile.award.title}</strong><span>{profile.otherHonors.join(', ')}</span></dd></div>
           <div><dt>Studying</dt><dd>B.Sc. Data Science, Telkom University</dd></div>
+          <div><dt>Honors</dt><dd>Astra 1st 2026 Scholarship Awardee<br />Telkom University Endowment Fund 2026 Awardee</dd></div>
           <div><dt>Interested in</dt><dd>Data products, applied AI, urban analytics, decision intelligence, visual communication</dd></div>
         </dl>
       </article>
@@ -354,7 +383,7 @@ const cursors = [
     tile.width = w;
     tile.height = h;
     const g = tile.getContext('2d')!;
-    g.fillStyle = '#f4f6fb';
+    g.fillStyle = c.dataset.bg || '#f4f6fb';
     g.fillRect(0, 0, w, h);
     const img = new Image();
     const done = new Promise<void>((resolve) => {
@@ -578,6 +607,9 @@ const cursors = [
     document.querySelectorAll<HTMLElement>('[data-award]').forEach((el) => {
       el.addEventListener('pointerenter', () => react('🏆', 'Astra 1st 2026. Proud of this one.'));
     });
+    document.querySelectorAll<HTMLElement>('[data-view-link="recognition"]').forEach((el) => {
+      el.addEventListener('pointerenter', () => react('🏆', 'The part I am proudest of.'));
+    });
     document.querySelectorAll<HTMLElement>('.row').forEach((row) => {
       row.addEventListener('pointerenter', () => react('👀', `${row.dataset.title}? Good pick.`));
     });
@@ -585,6 +617,13 @@ const cursors = [
     settle(0);
     return { react };
   })();
+
+  const trophy = document.querySelector<HTMLButtonElement>('[data-trophy]')!;
+  trophy.addEventListener('click', () => {
+    trophy.classList.remove('cheer');
+    void trophy.offsetWidth;
+    trophy.classList.add('cheer');
+  });
 
   /* boot */
   document.querySelectorAll<HTMLCanvasElement>('canvas[data-art]').forEach(renderArt);
@@ -705,44 +744,8 @@ const cursors = [
   [data-photo-reveal].done { opacity: 0; transition: opacity .4s; }
   .intro p { margin: 0; max-width: 52ch; color: var(--ink-2); font-size: .94rem; line-height: 1.6; }
   .intro a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
-
-  .award {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 18px;
-    padding: 12px 16px 12px 12px;
-    border-radius: 16px;
-    isolation: isolate;
-    transition: translate .3s var(--ease);
-  }
-  .award::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border: 1px solid #c9d8fb;
-    border-radius: inherit;
-    background: linear-gradient(100deg, #ffffff 0%, var(--blue-soft) 100%);
-    transition: border-color .2s;
-  }
-  .award:hover::after { border-color: var(--blue); }
-  .award::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    border-radius: inherit;
-    transform: translate(5px, 5px);
-    background: var(--dither-pattern);
-    opacity: .3;
-  }
-  .award:hover { translate: 0 -2px; }
-  .award img { width: 96px; height: auto; flex-shrink: 0; padding: 6px 8px; border-radius: 10px; background: #fff; }
-  .award-text { display: grid; gap: 2px; min-width: 0; }
-  .award-text strong { font-size: .98rem; font-weight: 700; letter-spacing: -.015em; color: var(--ink); }
-  .award-text span { color: var(--ink-2); font-size: .8rem; }
+  .intro .bio-award { color: var(--ink); font-weight: 650; text-decoration-color: var(--blue); text-decoration-thickness: 2px; }
+  .intro .bio-award:hover { color: var(--blue); }
 
   /* works box */
   .works {
@@ -979,42 +982,37 @@ const cursors = [
     white-space: nowrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
   }
-  .award-float { pointer-events: auto; }
-  .award-card {
-    position: relative;
+  .chat {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: max-content;
+    max-width: 330px;
+    padding: 12px 16px 12px 12px;
+    border: 1px solid rgba(255, 255, 255, .34);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .14);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: 0 12px 28px rgba(8, 26, 84, .2);
+    font-size: .86rem;
+    line-height: 1.4;
+  }
+  .chat-avatar {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
     display: grid;
-    justify-items: start;
-    gap: 10px;
-    width: 230px;
-    padding: 16px 18px;
-    border-radius: 18px;
-    isolation: isolate;
-    color: #0b1533;
-    font-size: .92rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #0b1533;
+    font-size: .74rem;
     font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -.01em;
-    transition: rotate .4s var(--ease);
   }
-  .award-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background: #f4f6fb;
-  }
-  .award-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    border-radius: inherit;
-    transform: translate(6px, 6px);
-    background: var(--dither-pattern);
-  }
-  .award-card img { width: 120px; height: auto; }
-  .award-card:hover { rotate: -2deg; }
+  .chat-body { display: grid; gap: 2px; }
+  .chat-head { color: var(--on-blue-2); font-size: .76rem; }
+  .chat-head strong { color: #fff; margin-right: 6px; }
+
   .home-title {
     position: absolute;
     left: clamp(32px, 4vw, 64px);
@@ -1232,6 +1230,45 @@ const cursors = [
   .timeline ul li::marker { color: var(--sky); }
   .t-desc { margin: 0; max-width: 66ch; color: var(--on-blue-2); font-size: .94rem; line-height: 1.65; }
 
+  .rec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .trophy {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    line-height: 1;
+    cursor: pointer;
+    filter: drop-shadow(0 14px 18px rgba(8, 26, 84, .35));
+    transition: rotate .4s var(--ease), scale .4s var(--ease);
+  }
+  .trophy:hover { rotate: -8deg; scale: 1.06; }
+  .trophy.cheer { animation: cheer .7s var(--ease); }
+  @keyframes cheer {
+    0% { translate: 0 0; rotate: 0deg; }
+    30% { translate: 0 -22px; rotate: -10deg; }
+    60% { translate: 0 0; rotate: 8deg; }
+    100% { translate: 0 0; rotate: 0deg; }
+  }
+  .ready .view[data-view='recognition']:not([hidden]) .trophy { animation: cheer .8s var(--ease) .2s both; }
+  .rec-list { list-style: none; margin: 28px 0 0; padding: 0; }
+  .rec {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--on-blue-rule);
+  }
+  .rec:not(:has(.rec-logo)) { grid-template-columns: 1fr; }
+  .rec h3 { margin: 0; font-size: 1.15rem; font-weight: 650; letter-spacing: -.015em; }
+  .rec .t-org { margin-bottom: 0; }
+  .rec .t-desc { margin-top: 6px; }
+  .rec-logo { display: block; width: 148px; height: 72px; padding: 10px 14px; border-radius: 12px; background: #fff; }
+  .rec-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .rec.featured h3 { font-size: 1.5rem; letter-spacing: -.025em; }
+  .rec-sub { margin: 44px 0 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+  .rec-sub + .rec-list { margin-top: 12px; }
+
   .tool-group { margin-top: 36px; }
   .tool-group h3 { margin: 0 0 14px; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
   .tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px 16px; }
@@ -1241,10 +1278,6 @@ const cursors = [
   .facts div { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--on-blue-rule); }
   .facts dt { color: var(--on-blue-3); font-size: .9rem; font-weight: 500; }
   .facts dd { margin: 0; font-size: .95rem; line-height: 1.55; }
-  .honors { display: grid; justify-items: start; gap: 4px; }
-  .honors img { width: 110px; height: auto; margin-bottom: 8px; padding: 8px 10px; border-radius: 10px; background: #fff; }
-  .honors strong { font-size: 1.05rem; }
-  .honors span { color: var(--on-blue-2); }
 
   /* small screens */
   @media (max-width: 959px) {
@@ -1281,6 +1314,9 @@ const cursors = [
     .panel-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; }
     .step { opacity: 1; width: 44px; height: 44px; scale: 1; }
     .facts div { grid-template-columns: 1fr; gap: 4px; }
+    .rec { grid-template-columns: 1fr; gap: 14px; }
+    .rec-logo { width: 120px; height: 58px; }
+    .rec.featured h3 { font-size: 1.3rem; }
     .chip { padding: 9px 14px; }
     .view-toggle button { width: 40px; height: 38px; }
   }

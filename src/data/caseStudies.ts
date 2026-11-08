@@ -12,8 +12,9 @@ export interface CaseStudy {
   summary: string;
   categories: Category[];
   group: string;
-  // shown on a light tile when there is no screenshot
+  // logo tile for the list thumbnail (and the panel when there is no screenshot)
   brandLogo?: string;
+  brandBg?: string;
   number: string;
   title: string;
   year: string;
@@ -57,6 +58,8 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'narapangan',
+    brandLogo: '/images/logos/narapangan.png',
+    brandBg: '#204b2d',
     tag: 'Telkom University · Capstone',
     summary: 'Turning volatile food-price forecasts into procurement decisions for small food businesses.',
     categories: ['data', 'product'],
