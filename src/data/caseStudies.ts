@@ -85,6 +85,8 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'sre-telkom',
+    hero: '/images/covers/sre-telkom.png',
+    heroAlt: "Bar chart: SRE Telkom University Instagram followers grew from 1.8K to 3.3K (+83%) during the Director of Multimedia term",
     tag: 'SRE Telkom University',
     summary: 'Rebuilding the visual identity and communication system of a growing sustainability organization.',
     categories: ['design'],
@@ -104,10 +106,11 @@ export const caseStudies: CaseStudy[] = [
       'Extended the identity into merchandise, partnerships, and program communication',
     ],
     learning: 'Creative leadership is different from individual execution. The work shifted from making better graphics myself to building a system other people could use consistently.',
-    placeholderLabel: 'SRE rebrand collage / before-and-after visual to be added',
   },
   {
     slug: 'bandung-accessibility',
+    hero: '/images/covers/bandung-accessibility.png',
+    heroAlt: "Grid map of Bandung in 500 m cells, colored by accessibility cluster; high-access cells concentrate in the city center",
     tag: 'Independent · Spatial analysis',
     summary: 'Mapping how unevenly everyday services are distributed across Bandung.',
     categories: ['data'],
@@ -129,10 +132,11 @@ export const caseStudies: CaseStudy[] = [
     learning: 'The strongest result was not a single score but the spatial pattern: central services cluster together, while eastern and southern areas remain comparatively underserved.',
     externalUrl: 'https://github.com/cerealtwist/Bandung-Accessibility-Analysis',
     externalLabel: 'GitHub repository',
-    placeholderLabel: 'Redesigned accessibility map to be added',
   },
   {
     slug: 'comtrade',
+    hero: '/images/covers/comtrade.png',
+    heroAlt: "Bar chart of Indonesia's HS 85 trade balance with China, 2015 to 2024, widening to a 14.2 billion USD deficit",
     tag: 'Independent · Supply chain',
     summary: 'Reading Indonesia’s electrical machinery trade through dependence, volatility, and logistics performance.',
     categories: ['data'],
@@ -154,6 +158,5 @@ export const caseStudies: CaseStudy[] = [
     learning: 'Aggregate trade data can reveal structural patterns, but it can also hide product-level shifts. A stronger next iteration would move selected findings down to HS 6-digit categories.',
     externalUrl: 'https://github.com/cerealtwist/Comtrade-Performance-Analytics',
     externalLabel: 'GitHub repository',
-    placeholderLabel: 'Tableau dashboard visual to be added',
   },
 ];

@@ -86,7 +86,7 @@ export const leadership: LeadershipEntry[] = [
     role: 'Director of Multimedia',
     org: 'SRE Telkom University',
     logo: '/images/logos/sre.png',
-    desc: "Led Social Media and Creative Media while overhauling SRE Telkom University's visual identity, content system, and cross-divisional workflow. During my wider involvement in SRE, the Instagram audience grew from roughly 1K followers in 2023 to around 3.1K by the end of 2025; I no longer have access to the original analytics dashboard, so I treat those figures as approximate.",
+    desc: "Rebuilt SRE's digital presence from scratch, directing Social Media and Creative Media to a unified visual branding and design guidelines. Grew followers 83% (1.8K to 3.3K) by reading engagement patterns and aligning content with what the audience actually responded to, and set up Notion and Google Sheets tracking for cross-divisional schedules and content KPIs.",
   },
   {
     date: 'Jan 2025 – Jan 2026',

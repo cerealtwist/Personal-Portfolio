@@ -80,6 +80,9 @@ const monogramMap: Record<string, string> = {
   VertexAI: 'VA',
 };
 
+// brand colors that read as black on the tile get their lighter official variant
+const hexOverride: Record<string, string> = { Django: '44B78B' };
+
 const icon = iconMap[name];
 const customSrc = customIconMap[name];
 const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
@@ -89,7 +92,7 @@ const fallbackColor = fallbackColorMap[name] ?? '#235f9c';
 <span class="icon-tile" style={`width:${size + 16}px;height:${size + 16}px;`} aria-label={name}>
   {
     icon ? (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill={`#${icon.hex}`} role="img" aria-label={icon.title}>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill={`#${hexOverride[name] ?? icon.hex}`} role="img" aria-label={icon.title}>
         <path d={icon.path} />
       </svg>
     ) : customSrc ? (

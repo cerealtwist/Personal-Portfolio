@@ -853,7 +853,7 @@ const cursors = [
     image-rendering: pixelated;
     transition: scale .4s var(--ease);
   }
-  .row-thumb img { image-rendering: auto; }
+  .row-thumb img { image-rendering: auto; object-position: 78% 50%; }
   .row:hover .row-thumb > * { scale: 1.03; }
   .row-text { display: grid; gap: 3px; min-width: 0; }
   .row-title { font-size: 1rem; font-weight: 650; letter-spacing: -.015em; }
@@ -1263,9 +1263,9 @@ const cursors = [
   .rec h3 { margin: 0; font-size: 1.15rem; font-weight: 650; letter-spacing: -.015em; }
   .rec .t-org { margin-bottom: 0; }
   .rec .t-desc { margin-top: 6px; }
-  .rec-logo { display: block; width: 148px; height: 72px; padding: 10px 14px; border-radius: 12px; background: #fff; }
+  .rec-logo { display: block; width: 92px; height: 44px; padding: 6px 10px; border-radius: 10px; background: #fff; }
   .rec-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .rec.featured h3 { font-size: 1.5rem; letter-spacing: -.025em; }
+  .rec.featured h3 { font-size: 1.3rem; letter-spacing: -.02em; }
   .rec-sub { margin: 44px 0 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
   .rec-sub + .rec-list { margin-top: 12px; }
 
@@ -1314,9 +1314,9 @@ const cursors = [
     .panel-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; }
     .step { opacity: 1; width: 44px; height: 44px; scale: 1; }
     .facts div { grid-template-columns: 1fr; gap: 4px; }
-    .rec { grid-template-columns: 1fr; gap: 14px; }
-    .rec-logo { width: 120px; height: 58px; }
-    .rec.featured h3 { font-size: 1.3rem; }
+    .rec { gap: 14px; }
+    .rec-logo { width: 76px; height: 38px; }
+    .rec.featured h3 { font-size: 1.15rem; }
     .chip { padding: 9px 14px; }
     .view-toggle button { width: 40px; height: 38px; }
   }
