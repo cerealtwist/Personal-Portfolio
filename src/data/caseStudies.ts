@@ -32,6 +32,8 @@ export interface CaseStudy {
   hero?: string;
   heroAlt?: string;
   placeholderLabel?: string;
+  // team projects: heading for the contribution list
+  contributionLabel?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -87,6 +89,31 @@ export const caseStudies: CaseStudy[] = [
     heroAlt: 'Narapangan dashboard',
   },
   {
+    slug: 'asean-dse',
+    hero: '/images/covers/asean-dse.png',
+    heroAlt: "Diverging bar chart of the Opportunity Access Score for six case districts in Bangkok, Jakarta and Metro Manila, from Samphanthawong at +2.60 to Nong Chok at -1.68",
+    tag: 'ASEAN Data Science Explorers 2026 · National Finalist',
+    summary: 'Showing not just which districts are far from jobs and services, but why.',
+    categories: ['data'],
+    group: '2026',
+    number: '03',
+    title: 'The Cost of Getting to Opportunity',
+    year: '2026',
+    role: 'Two-person team (19JTLK), Telkom University',
+    context: 'ASEAN Data Science Explorers 2026 · ASEAN Foundation & SAP',
+    intro: 'A district screening index for urban opportunity access across Jakarta, Metro Manila, and Bangkok, built only from open data.',
+    problem: 'Two districts can look equally disadvantaged for completely different reasons: sparse opportunities, weak transit, or distance from the main business centre. A single composite number hides which one it is, so the same fix ends up applied to different problems.',
+    contributionLabel: 'What we built',
+    contribution: [
+      'The Opportunity Access Score (OAS): mapped opportunity, recorded transit, and core proximity, each standardized within its own city and averaged equally',
+      'A pipeline from OpenStreetMap, Transitland, and COD-AB boundaries through Python to SAP Analytics Cloud, screening 109 districts',
+      'A log-density sensitivity check; rank correlation stayed at 0.988 to 0.993 across the three cities',
+      'Six contrasting case districts that show three different reasons a district can lag, from core distance in Bangkok to transit-dependence in Metro Manila',
+      'AccessLens, a planner dashboard concept that turns the score into a validation checklist and an action brief',
+    ],
+    learning: 'OAS does not prescribe the intervention; it narrows the decision space. Being clear about what the score cannot answer (routes, frequency, fares, informal transport) made the method more useful, not less.',
+  },
+  {
     slug: 'bandung-accessibility',
     hero: '/images/covers/bandung-accessibility.png',
     heroAlt: "Grid map of Bandung in 500 m cells, colored by accessibility cluster; high-access cells concentrate in the city center",
@@ -94,7 +121,7 @@ export const caseStudies: CaseStudy[] = [
     summary: 'Mapping how unevenly everyday services are distributed across Bandung.',
     categories: ['data'],
     group: '2026',
-    number: '03',
+    number: '04',
     title: 'Bandung Accessibility',
     year: '2026',
     role: 'Independent Spatial Analysis',
@@ -121,7 +148,7 @@ export const caseStudies: CaseStudy[] = [
     summary: 'Reading Indonesia’s electrical machinery trade through dependence, volatility, and logistics performance.',
     categories: ['data'],
     group: '2026',
-    number: '04',
+    number: '05',
     title: 'Comtrade Performance Analytics',
     year: '2026',
     role: 'Independent Analytics Project',

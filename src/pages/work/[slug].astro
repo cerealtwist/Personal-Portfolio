@@ -57,7 +57,7 @@ const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
       </div>
 
       <div class="case-row">
-        <div class="case-label">My contribution</div>
+        <div class="case-label">{project.contributionLabel ?? 'My contribution'}</div>
         <div class="case-copy">
           <ul>
             {project.contribution.map((item) => <li>{item}</li>)}

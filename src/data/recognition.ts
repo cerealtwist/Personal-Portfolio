@@ -4,6 +4,7 @@ export interface Recognition {
   org: string;
   logo?: string;
   note?: string;
+  href?: string;
 }
 
 export const honors: Recognition[] = [
@@ -12,6 +13,14 @@ export const honors: Recognition[] = [
     title: 'Astra 1st 2026 Scholarship Awardee',
     org: 'PT. Astra International',
     logo: '/images/logos/astra1st-2026.png',
+  },
+  {
+    year: 'Oct 2026',
+    title: 'National Finalist, ASEAN Data Science Explorers 2026',
+    org: 'ASEAN Foundation & SAP',
+    logo: '/images/logos/asean-dse.png',
+    note: "Selected as one of Indonesia's national finalists, representing Telkom University, with “The Cost of Getting to Opportunity”, a district screening index for Jakarta, Metro Manila, and Bangkok.",
+    href: 'work/asean-dse',
   },
   {
     year: '2026',

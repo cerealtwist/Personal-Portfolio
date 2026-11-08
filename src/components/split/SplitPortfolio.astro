@@ -239,7 +239,7 @@ const cursors = [
             <div class="prose">
               <p class="lead">{w.intro}</p>
               <p>{w.problem}</p>
-              <h3>What I did</h3>
+              <h3>{w.contributionLabel ?? 'What I did'}</h3>
               <ul>{w.contribution.map((c) => <li>{c}</li>)}</ul>
               <h3>What I took from it</h3>
               <p>{w.learning}</p>
@@ -302,6 +302,8 @@ const cursors = [
               <div>
                 <h3>{r.title}</h3>
                 <p class="t-org">{r.org}<span class="t-date">{r.year}</span></p>
+                {r.note && <p class="t-desc">{r.note}</p>}
+                {r.href && <a class="rec-link" href={url(`/${r.href}`)} data-view-link={r.href}>See the project <span aria-hidden="true">→</span></a>}
               </div>
             </li>
           ))}
@@ -1258,7 +1260,7 @@ const cursors = [
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 20px;
-    align-items: center;
+    align-items: start;
     padding: 20px 0;
     border-top: 1px solid var(--on-blue-rule);
   }
@@ -1269,6 +1271,8 @@ const cursors = [
   .rec-logo { display: block; width: 92px; height: 44px; padding: 6px 10px; border-radius: 10px; background: #fff; }
   .rec-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
   .rec.featured h3 { font-size: 1.3rem; letter-spacing: -.02em; }
+  .rec-link { display: inline-block; margin-top: 10px; color: #fff; font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--on-blue-rule); text-underline-offset: 4px; }
+  .rec-link:hover { text-decoration-color: #fff; }
   .rec-sub { margin: 44px 0 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
   .rec-sub + .rec-list { margin-top: 12px; }
 
