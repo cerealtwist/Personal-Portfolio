@@ -26,6 +26,9 @@ export interface CaseStudy {
   learning: string;
   externalUrl?: string;
   externalLabel?: string;
+  extraLinks?: { label: string; url: string }[];
+  // list thumbnail when it should differ from the hero
+  thumb?: string;
   hero?: string;
   heroAlt?: string;
   placeholderLabel?: string;
@@ -111,8 +114,9 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'comtrade',
-    hero: '/images/covers/comtrade.png',
-    heroAlt: "Bar chart of Indonesia's HS 85 trade balance with China, 2015 to 2024, widening to a 14.2 billion USD deficit",
+    hero: '/images/covers/comtrade-dashboard.png',
+    thumb: '/images/covers/comtrade.png',
+    heroAlt: "Tableau dashboard: Indonesia HS 85 trade trend, trade by partner, trade balance and total volume by partner, 2015 to 2024",
     tag: 'Independent · Supply chain',
     summary: 'Reading Indonesia’s electrical machinery trade through dependence, volatility, and logistics performance.',
     categories: ['data'],
@@ -125,14 +129,19 @@ export const caseStudies: CaseStudy[] = [
     intro: 'An end-to-end supply-chain analytics project examining Indonesia’s electrical machinery trade across key partners from 2015 to 2024.',
     problem: 'The analysis connects two questions: which partners drive trade volatility, and how might logistics performance constrain Indonesia’s supply chain?',
     contribution: [
-      'Built the extraction, cleaning, and feature-engineering pipeline',
-      'Combined UN Comtrade and World Bank logistics data',
-      'Analyzed partner-level trade balance, volatility, and anomalies',
-      'Designed an interactive Tableau overview for the final analysis',
-      'Documented limitations around LPI frequency, aggregation, and anomaly detection',
+      'Built a 3-stage ETL pipeline pulling a decade of monthly trade data from the UN Comtrade API and World Bank LPI, covering 11 trading partners',
+      'Diagnosed a structural deficit with China that grew 137.7% from 2015 to 2024, while Indonesia ran an average $1.62B annual surplus with the US',
+      "Found Indonesia's LPI rank fell from 46th to 61st as every ASEAN peer improved, with customs efficiency (2.8/5.0) as the main bottleneck",
+      'Delivered a 5-dashboard Tableau workbook: trade overview, demand volatility, COVID-19 shock, logistics correlation, and the 2024 HS 85 demand surge (+120.87% YoY)',
     ],
     learning: 'Aggregate trade data can reveal structural patterns, but it can also hide product-level shifts. A stronger next iteration would move selected findings down to HS 6-digit categories.',
     externalUrl: 'https://github.com/cerealtwist/Comtrade-Performance-Analytics',
     externalLabel: 'GitHub repository',
+    extraLinks: [
+      {
+        label: 'Tableau dashboard',
+        url: 'https://public.tableau.com/app/profile/farand.mahazalfaa/viz/FarandComtrade/D1TradeOverview',
+      },
+    ],
   },
 ];

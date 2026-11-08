@@ -104,8 +104,8 @@ const cursors = [
                       <span class="row-thumb" aria-hidden="true">
                         {w.brandLogo ? (
                           <canvas data-logo={url(w.brandLogo)} data-bg={w.brandBg} data-w="240" data-h="180"></canvas>
-                        ) : w.hero ? (
-                          <img src={url(w.hero)} alt="" loading="lazy" />
+                        ) : w.thumb || w.hero ? (
+                          <img src={url(w.thumb ?? w.hero!)} alt="" loading="lazy" />
                         ) : (
                           <canvas data-art data-seed={Number(w.number)} data-label={w.number} data-cols="96"></canvas>
                         )}
@@ -250,6 +250,9 @@ const cursors = [
               {w.externalUrl && (
                 <a class="pill ghost" href={w.externalUrl} target="_blank" rel="noopener">{w.externalLabel ?? 'Open link'} ↗</a>
               )}
+              {w.extraLinks?.map((l) => (
+                <a class="pill ghost" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+              ))}
             </div>
           </article>
         );

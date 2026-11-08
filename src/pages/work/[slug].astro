@@ -36,6 +36,9 @@ const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
         {project.externalUrl && (
           <div><span>Link</span><a href={project.externalUrl} target="_blank" rel="noopener">{project.externalLabel} ↗</a></div>
         )}
+        {project.extraLinks?.map((l) => (
+          <div><span>Link</span><a href={l.url} target="_blank" rel="noopener">{l.label} ↗</a></div>
+        ))}
       </div>
     </section>
 
