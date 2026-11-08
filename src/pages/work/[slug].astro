@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Cursor from '../../components/Cursor.astro';
 import { caseStudies } from '../../data/caseStudies';
+import { profile } from '../../data/profile';
 import { url } from '../../lib/url';
 
 export function getStaticPaths() {
@@ -12,219 +13,309 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const currentIndex = caseStudies.findIndex((item) => item.slug === project.slug);
-const nextProject = caseStudies[(currentIndex + 1) % caseStudies.length];
+const i = caseStudies.findIndex((item) => item.slug === project.slug);
+const next = caseStudies[(i + 1) % caseStudies.length];
+const links = [
+  ...(project.externalUrl ? [{ label: project.externalLabel ?? 'Open link', url: project.externalUrl }] : []),
+  ...(project.extraLinks ?? []),
+];
+const nextThumb = next.thumb ?? next.hero;
 ---
 
-<BaseLayout title={`${project.title} | Farand Mahazalfaa`} description={project.intro}>
+<BaseLayout title={`${project.title} | ${profile.name}`} description={project.intro}>
   <Cursor />
 
-  <header class="case-nav">
-    <a href={url('/')}>Farand Mahazalfaa</a>
-    <a href={url(`/#work/${project.slug}`)}>All work</a>
-  </header>
+  <div class="case">
+    <header class="top">
+      <a class="home" href={url('/')}>{profile.name}</a>
+      <a class="back" href={url(`/#work/${project.slug}`)}><span aria-hidden="true">←</span> All work</a>
+    </header>
 
-  <main>
-    <section class="case-hero wrap">
-      <div class="case-kicker">{project.number} / {String(caseStudies.length).padStart(2, '0')} · {project.year}</div>
-      <h1>{project.title}</h1>
-      <p class="case-intro">{project.intro}</p>
-
-      <div class="case-meta">
-        <div><span>Role</span><strong>{project.role}</strong></div>
-        <div><span>Context</span><strong>{project.context}</strong></div>
-        {project.externalUrl && (
-          <div><span>Link</span><a href={project.externalUrl} target="_blank" rel="noopener">{project.externalLabel} ↗</a></div>
+    <section class="band dark-surface">
+      <div class="band-inner">
+        <p class="tag">{project.tag}</p>
+        <h1>{project.title}</h1>
+        <p class="lead">{project.intro}</p>
+        <dl class="meta">
+          <div><dt>Year</dt><dd>{project.year}</dd></div>
+          <div><dt>Role</dt><dd>{project.role}</dd></div>
+          <div><dt>Context</dt><dd>{project.context}</dd></div>
+        </dl>
+        {links.length > 0 && (
+          <div class="links">
+            {links.map((l) => (
+              <a class="pill" href={l.url} target="_blank" rel="noopener">{l.label} <span aria-hidden="true">↗</span></a>
+            ))}
+          </div>
         )}
-        {project.extraLinks?.map((l) => (
-          <div><span>Link</span><a href={l.url} target="_blank" rel="noopener">{l.label} ↗</a></div>
-        ))}
       </div>
     </section>
 
-    <section class="case-media wrap">
-      {project.hero ? (
-        <img src={url(project.hero)} alt={project.heroAlt || project.title} />
-      ) : (
-        <div class="case-placeholder"><span>{project.placeholderLabel}</span></div>
-      )}
-    </section>
-
-    <section class="case-body wrap">
-      <div class="case-row">
-        <div class="case-label">The problem</div>
-        <div class="case-copy"><p>{project.problem}</p></div>
+    <figure class="media">
+      <div class="screen">
+        {project.hero ? (
+          <>
+            <img src={url(project.hero)} alt={project.heroAlt ?? project.title} data-hero />
+            <canvas data-reveal aria-hidden="true"></canvas>
+          </>
+        ) : project.brandLogo ? (
+          <div class="logo-tile" style={project.brandBg ? `background:${project.brandBg}` : undefined}>
+            <img src={url(project.brandLogo)} alt={`${project.title} logo`} />
+          </div>
+        ) : (
+          <div class="logo-tile"><span>{project.title}</span></div>
+        )}
       </div>
+    </figure>
 
-      <div class="case-row">
-        <div class="case-label">{project.contributionLabel ?? 'My contribution'}</div>
-        <div class="case-copy">
-          <ul>
-            {project.contribution.map((item) => <li>{item}</li>)}
-          </ul>
-        </div>
-      </div>
+    <main class="body">
+      <section class="row">
+        <h2>The problem</h2>
+        <p>{project.problem}</p>
+      </section>
 
-      <div class="case-row learning-row">
-        <div class="case-label">What I learned</div>
-        <div class="case-copy"><blockquote>{project.learning}</blockquote></div>
-      </div>
-    </section>
+      <section class="row">
+        <h2>{project.contributionLabel ?? 'What I did'}</h2>
+        <ul>{project.contribution.map((item) => <li>{item}</li>)}</ul>
+      </section>
 
-    <section class="next-project wrap">
-      <p>Next project</p>
-      <a href={url(`/work/${nextProject.slug}`)}>
-        <span>{nextProject.number}</span>
-        <strong>{nextProject.title}</strong>
-        <span>↗</span>
+      <section class="row">
+        <h2>What I took from it</h2>
+        <blockquote>{project.learning}</blockquote>
+      </section>
+
+      <a class="next" href={url(`/work/${next.slug}`)}>
+        <span class="next-thumb" style={!nextThumb && next.brandBg ? `background:${next.brandBg}` : undefined}>
+          {nextThumb ? <img src={url(nextThumb)} alt="" loading="lazy" /> : next.brandLogo && <img class="contain" src={url(next.brandLogo)} alt="" loading="lazy" />}
+        </span>
+        <span class="next-text">
+          <span class="next-label">Next project</span>
+          <strong>{next.title}</strong>
+          <span class="next-summary">{next.summary}</span>
+        </span>
+        <span class="next-arrow" aria-hidden="true">→</span>
       </a>
-    </section>
-  </main>
+    </main>
+
+    <footer class="foot">
+      <p>© 2026 {profile.name}</p>
+      <p>Jakarta, Indonesia</p>
+    </footer>
+  </div>
 </BaseLayout>
 
+<script>
+  import { pixelReveal, reducedMotion } from '../../lib/dither';
+
+  const img = document.querySelector<HTMLImageElement>('img[data-hero]');
+  const canvas = document.querySelector<HTMLCanvasElement>('canvas[data-reveal]');
+  if (img && canvas) {
+    const go = () => {
+      canvas.width = 240;
+      canvas.height = Math.round((240 * img.naturalHeight) / img.naturalWidth);
+      pixelReveal(canvas, img, 900);
+      setTimeout(() => canvas.classList.add('done'), reducedMotion() ? 0 : 900);
+    };
+    img.complete ? go() : img.addEventListener('load', go, { once: true });
+  }
+</script>
+
 <style>
-  .case-nav {
-    position: relative;
-    z-index: 10;
+  .case {
+    --paper: #f5f6f8;
+    --ink: #0f1420;
+    --ink-2: #4f5767;
+    --ink-3: #5f6778;
+    --rule: #e2e5ea;
+    --blue: #2261e9;
+    --blue-soft: #eaf0ff;
+    --on-blue-2: #e6eeff;
+    --on-blue-3: #d6e2ff;
+    --on-blue-rule: rgba(255, 255, 255, .22);
+    --dither-pattern: repeating-conic-gradient(#0b1533 0 25%, transparent 0 50%) 0 0 / 3px 3px;
+    --pad: clamp(20px, 5vw, 72px);
+    --ease: cubic-bezier(.16, 1, .3, 1);
+    min-height: 100svh;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .case ::selection { background: var(--blue); color: #fff; }
+  .case :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .band :focus-visible { outline-color: #fff; }
+
+  .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px var(--pad);
-    font-size: .84rem;
-    font-weight: 560;
-  }
-
-  .case-nav a:last-child { color: var(--text-secondary); }
-
-  .case-hero {
-    padding-top: clamp(84px, 12vw, 150px);
-    padding-bottom: clamp(56px, 8vw, 96px);
-  }
-
-  .case-kicker {
-    margin-bottom: 24px;
-    color: var(--text-tertiary);
-    font-size: .75rem;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-  }
-
-  h1 {
-    margin: 0;
-    max-width: 11ch;
-    font-size: clamp(3.3rem, 9vw, 8.5rem);
-    line-height: .92;
-    letter-spacing: -.065em;
+    padding: 22px var(--pad);
+    color: #fff;
+    font-size: .95rem;
     font-weight: 600;
   }
-
-  .case-intro {
-    margin: 40px 0 56px;
-    max-width: 62ch;
-    font-size: clamp(1.2rem, 2.1vw, 1.7rem);
-    line-height: 1.45;
-    color: var(--text-secondary);
+  .home { letter-spacing: -.01em; }
+  .back {
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    border-radius: 999px;
+    transition: background .2s;
   }
+  .back:hover { background: rgba(255, 255, 255, .12); }
 
-  .case-meta {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px;
-    padding-top: 18px;
-    border-top: 1px solid var(--text);
-  }
-
-  .case-meta div { display: flex; flex-direction: column; gap: 7px; }
-  .case-meta span { color: var(--text-tertiary); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
-  .case-meta strong,
-  .case-meta a { font-size: .94rem; font-weight: 500; }
-
-  .case-media { padding-bottom: clamp(80px, 11vw, 150px); }
-  .case-media img,
-  .case-placeholder {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    display: block;
-  }
-  .case-media img { object-fit: cover; }
-
-  .case-placeholder {
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--line);
+  .band {
+    padding: clamp(110px, 14vh, 150px) var(--pad) clamp(150px, 20vh, 220px);
+    color: #fff;
     background:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px),
-      #f7f7f5;
-    background-size: 32px 32px;
+      repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), rgba(255, 255, 255, .07) calc(12.5% - 1px) 12.5%),
+      radial-gradient(120% 80% at 85% 0%, #3a6fe8 0%, transparent 55%),
+      radial-gradient(90% 70% at 0% 100%, #163fae 0%, transparent 60%),
+      #1b4fcf;
   }
-  .case-placeholder span {
-    background: var(--bg);
-    padding: 10px 13px;
-    color: var(--text-tertiary);
-    font-size: .75rem;
-  }
-
-  .case-body { padding-bottom: clamp(100px, 13vw, 180px); }
-  .case-row {
-    display: grid;
-    grid-template-columns: minmax(140px, .28fr) 1fr;
-    gap: clamp(28px, 6vw, 90px);
-    padding: 44px 0;
-    border-top: 1px solid var(--line);
-  }
-  .case-label {
-    font-size: .76rem;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: .09em;
-  }
-  .case-copy { max-width: 760px; }
-  .case-copy p,
-  .case-copy li,
-  .case-copy blockquote {
-    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-    line-height: 1.65;
-  }
-  .case-copy p { margin: 0; }
-  .case-copy ul { margin: 0; padding: 0; list-style: none; }
-  .case-copy li { padding: 13px 0; border-bottom: 1px solid var(--line); }
-  .case-copy li:first-child { padding-top: 0; }
-  .case-copy blockquote {
+  .band-inner { max-width: 1040px; margin: 0 auto; animation: rise .8s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+  .tag { margin: 0 0 16px; color: var(--on-blue-3); font-size: .95rem; font-weight: 500; }
+  h1 {
+    max-width: 18ch;
     margin: 0;
-    font-size: clamp(1.55rem, 3vw, 2.7rem);
-    line-height: 1.22;
-    letter-spacing: -.035em;
+    font-size: clamp(2.6rem, 6.4vw, 5.6rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.045em;
+    text-wrap: balance;
+  }
+  .lead {
+    max-width: 52ch;
+    margin: 26px 0 0;
+    color: var(--on-blue-2);
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    line-height: 1.55;
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; }
+  .meta div {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 6px 12px;
+    border: 1px solid var(--on-blue-rule);
+    border-radius: 999px;
+  }
+  .meta dt { color: var(--on-blue-3); font-size: .78rem; font-weight: 500; }
+  .meta dd { margin: 0; color: #fff; font-size: .86rem; font-weight: 600; }
+  .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .pill {
+    padding: 11px 18px;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 600;
+    transition: background .2s;
+  }
+  .pill:hover { background: rgba(255, 255, 255, .12); }
+
+  .media {
+    max-width: 1100px;
+    margin: calc(clamp(150px, 20vh, 220px) * -1 + 40px) auto 0;
+    padding: 0 var(--pad);
+    position: relative;
+  }
+  .screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 8px solid #fff;
+    border-radius: 24px;
+    background: #0c2a7a;
+    box-shadow: 0 30px 70px rgba(8, 26, 84, .25), 0 0 0 1px var(--rule);
+  }
+  .screen > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .screen canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    transition: opacity .35s;
+  }
+  .screen canvas.done { opacity: 0; }
+  .logo-tile { display: grid; place-items: center; width: 100%; height: 100%; background: #f4f6fb; }
+  .logo-tile img { width: 55%; height: auto; }
+  .logo-tile span { font-size: 2rem; font-weight: 700; }
+
+  .body { max-width: 1040px; margin: 0 auto; padding: clamp(56px, 9vw, 110px) var(--pad) 80px; }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(160px, .3fr) 1fr;
+    gap: clamp(24px, 5vw, 72px);
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .row h2 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -.015em; line-height: 1.4; }
+  .row p, .row li { margin: 0; max-width: 64ch; color: var(--ink-2); font-size: 1.08rem; line-height: 1.7; }
+  .row ul { margin: 0; padding-left: 20px; }
+  .row li { margin-bottom: 10px; }
+  .row li::marker { color: var(--blue); }
+  blockquote {
+    margin: 0;
+    max-width: 30ch;
+    color: var(--ink);
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
   }
 
-  .next-project {
-    padding-top: 28px;
-    padding-bottom: 80px;
-    border-top: 1px solid var(--text);
-  }
-  .next-project p {
-    margin: 0 0 30px;
-    color: var(--text-tertiary);
-    font-size: .75rem;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-  }
-  .next-project a {
+  .next {
+    position: relative;
     display: grid;
-    grid-template-columns: 50px 1fr auto;
-    gap: 20px;
-    align-items: baseline;
+    grid-template-columns: 148px 1fr auto;
+    gap: 22px;
+    align-items: center;
+    margin-top: 40px;
+    padding: 14px 24px 14px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(15, 20, 32, .04), 0 12px 32px rgba(15, 20, 32, .06);
+    transition: border-color .2s, translate .3s var(--ease);
   }
-  .next-project span { color: var(--text-secondary); font-size: .82rem; }
-  .next-project strong {
-    font-size: clamp(2rem, 6vw, 5.5rem);
-    font-weight: 560;
-    letter-spacing: -.055em;
+  .next:hover { border-color: #c9d6f5; translate: 0 -2px; }
+  .next-thumb { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; background: #f4f6fb; display: grid; place-items: center; }
+  .next-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
+  .next-thumb img.contain { width: 70%; height: auto; object-fit: contain; }
+  .next-text { display: grid; gap: 4px; min-width: 0; }
+  .next-label { color: var(--ink-3); font-size: .85rem; }
+  .next strong { font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; letter-spacing: -.025em; }
+  .next-summary { color: var(--ink-2); font-size: .95rem; line-height: 1.5; }
+  .next-arrow { color: var(--blue); font-size: 1.5rem; transition: translate .3s var(--ease); }
+  .next:hover .next-arrow { translate: 4px 0; }
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: min(calc(1040px - 2 * var(--pad)), calc(100% - 2 * var(--pad)));
+    margin: 0 auto;
+    padding: 20px 0 32px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-3);
+    font-size: .82rem;
   }
+  .foot p { margin: 0; }
 
   @media (max-width: 720px) {
-    .case-meta { grid-template-columns: 1fr; }
-    .case-row { grid-template-columns: 1fr; gap: 18px; }
-    .next-project a { grid-template-columns: 34px 1fr auto; }
+    .row { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+    .screen { border-width: 5px; border-radius: 16px; }
+    .next { grid-template-columns: 1fr; padding: 14px; }
+    .next-arrow { display: none; }
+    .home { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .band-inner { animation: none; }
   }
 </style>

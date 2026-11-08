@@ -112,8 +112,3 @@ h2 {
   .section-head { grid-template-columns: 1fr; gap: 12px; }
   section { padding: 84px 0; }
 }
-
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-  a, button, [data-cursor] { cursor: none; }
-}
