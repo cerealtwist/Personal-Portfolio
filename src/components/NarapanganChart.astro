@@ -1,0 +1,150 @@
+---
+import { narapanganModelResults } from '../data/narapanganResults';
+
+const chartWidth = 640;
+const chartHeight = 260;
+const paddingLeft = 34;
+const paddingBottom = 30;
+const paddingTop = 10;
+const plotWidth = chartWidth - paddingLeft - 10;
+const plotHeight = chartHeight - paddingTop - paddingBottom;
+
+const groupWidth = plotWidth / narapanganModelResults.length;
+const barWidth = groupWidth * 0.28;
+const maxValue = 100; // both metrics are percentages, shared 0-100 scale
+
+function barHeight(value: number) {
+  return (value / maxValue) * plotHeight;
+}
+---
+
+<div class="chart-wrap">
+  <svg
+    class="narapangan-chart"
+    viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+    role="img"
+    aria-label="Bar chart comparing MAPE and directional accuracy across five forecasting models tested in Narapangan"
+  >
+    {[0, 25, 50, 75, 100].map((tick) => {
+      const y = paddingTop + plotHeight - barHeight(tick);
+      return (
+        <g class="gridline">
+          <line x1={paddingLeft} x2={chartWidth - 10} y1={y} y2={y} />
+          <text x={paddingLeft - 8} y={y + 3} text-anchor="end">
+            {tick}
+          </text>
+        </g>
+      );
+    })}
+
+    {narapanganModelResults.map((result, i) => {
+      const groupX = paddingLeft + i * groupWidth + groupWidth / 2;
+      const mapeX = groupX - barWidth - 3;
+      const accX = groupX + 3;
+      const mapeH = barHeight(result.mapePercent);
+      const accH = barHeight(result.directionalAccuracyPercent);
+      const baseY = paddingTop + plotHeight;
+
+      return (
+        <g
+          class="bar-group"
+          tabindex="0"
+          data-model={result.model}
+          data-mae={result.mae.toFixed(2)}
+          data-mape={result.mapePercent.toFixed(2)}
+          data-acc={result.directionalAccuracyPercent.toFixed(1)}
+        >
+          <rect class="bar bar-mape" x={mapeX} y={baseY - mapeH} width={barWidth} height={mapeH} rx="2" />
+          <rect class="bar bar-acc" x={accX} y={baseY - accH} width={barWidth} height={accH} rx="2" />
+          <text class="bar-label" x={groupX} y={chartHeight - 8} text-anchor="middle">
+            {result.model}
+          </text>
+        </g>
+      );
+    })}
+  </svg>
+
+  <div class="chart-tooltip" id="narapangan-tooltip" hidden></div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="swatch swatch-mape"></span>MAPE % (lower is better)</div>
+    <div class="legend-item"><span class="swatch swatch-acc"></span>Directional accuracy % (higher is better)</div>
+  </div>
+</div>
+
+<script>
+  const tooltip = document.getElementById('narapangan-tooltip') as HTMLDivElement | null;
+  const chart = document.querySelector('.narapangan-chart');
+  if (tooltip && chart) {
+    const groups = chart.querySelectorAll<SVGGElement>('.bar-group');
+    groups.forEach((group) => {
+      const show = () => {
+        const { model, mae, mape, acc } = group.dataset;
+        tooltip.innerHTML = `<strong>${model}</strong><br>MAE ${mae} &middot; MAPE ${mape}% &middot; Directional accuracy ${acc}%`;
+        tooltip.hidden = false;
+        group.classList.add('active');
+      };
+      const hide = () => {
+        tooltip.hidden = true;
+        group.classList.remove('active');
+      };
+      group.addEventListener('mouseenter', show);
+      group.addEventListener('mouseleave', hide);
+      group.addEventListener('focus', show);
+      group.addEventListener('blur', hide);
+    });
+  }
+</script>
+
+<style>
+  .chart-wrap { width: 100%; }
+  .narapangan-chart { width: 100%; height: auto; overflow: visible; }
+
+  .gridline line { stroke: var(--bg-deep); stroke-width: 1; }
+  .gridline text { font-size: 8px; fill: var(--text-tertiary); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .bar { fill: var(--text); transition: opacity 0.2s var(--ease); }
+  .bar-mape { opacity: 0.85; }
+  .bar-acc { opacity: 0.32; }
+  .bar-group:hover .bar,
+  .bar-group.active .bar,
+  .bar-group:focus .bar { opacity: 1; }
+  .bar-group { cursor: pointer; outline: none; }
+  .bar-group:focus-visible .bar { outline: 2px solid var(--text); outline-offset: 2px; }
+
+  .bar-label {
+    font-size: 9px;
+    fill: var(--text-secondary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+  }
+
+  .chart-tooltip {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--bg-alt);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: inline-block;
+  }
+  .chart-tooltip[hidden] { display: none; }
+
+  .legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; background: var(--text); }
+  .swatch-mape { opacity: 0.85; }
+  .swatch-acc { opacity: 0.32; }
+</style>

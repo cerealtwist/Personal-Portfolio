@@ -1,0 +1,105 @@
+---
+---
+
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+<script>
+  const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (isFinePointer && !prefersReducedMotion) {
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+
+    if (dot && ring) {
+      let mouseX = 0;
+      let mouseY = 0;
+      let ringX = 0;
+      let ringY = 0;
+      let visible = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!visible) {
+          visible = true;
+          dot.style.opacity = '1';
+          ring.style.opacity = '1';
+        }
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      });
+
+      window.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0';
+        ring.style.opacity = '0';
+        visible = false;
+      });
+
+      const interactiveSelector = 'a, button, .bar-group, input, textarea';
+      document.addEventListener('mouseover', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(interactiveSelector)) {
+          ring.classList.add('ring-active');
+        }
+      });
+      document.addEventListener('mouseout', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(interactiveSelector)) {
+          ring.classList.remove('ring-active');
+        }
+      });
+
+      function animate() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        const scale = ring.classList.contains('ring-active') ? 1.45 : 1;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) scale(${scale})`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+  }
+</script>
+
+<style>
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s var(--ease);
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .cursor-ring {
+    width: 32px;
+    height: 32px;
+    margin: -16px 0 0 -16px;
+    border: 1.5px solid var(--text-tertiary);
+    border-radius: 50%;
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), border-color 0.2s var(--ease);
+    will-change: transform;
+  }
+
+  .cursor-ring.ring-active {
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 900px), (hover: none), (pointer: coarse) {
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+    }
+  }
+</style>

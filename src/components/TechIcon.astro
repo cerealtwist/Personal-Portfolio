@@ -1,0 +1,146 @@
+---
+import {
+  siPython,
+  siPandas,
+  siApachespark,
+  siGooglebigquery,
+  siJavascript,
+  siSvelte,
+  siGooglecloud,
+  siJupyter,
+  siGooglecolab,
+  siNotion,
+  siTrello,
+  siFigma,
+  siGithub,
+  siPostgresql,
+  siDocker,
+  siDjango,
+  siFastapi,
+  siJira,
+} from 'simple-icons';
+import { url } from '../lib/url';
+
+interface Props {
+  name: string;
+  size?: number;
+}
+
+const { name, size = 20 } = Astro.props;
+
+const iconMap: Record<string, { path: string; title: string; hex: string }> = {
+  Python: siPython,
+  Pandas: siPandas,
+  Spark: siApachespark,
+  BigQuery: siGooglebigquery,
+  JavaScript: siJavascript,
+  Svelte: siSvelte,
+  GCP: siGooglecloud,
+  'Jupyter Notebook': siJupyter,
+  'Google Colab': siGooglecolab,
+  Notion: siNotion,
+  Trello: siTrello,
+  Figma: siFigma,
+  GitHub: siGithub,
+  PostgreSQL: siPostgresql,
+  Docker: siDocker,
+  Django: siDjango,
+  FastAPI: siFastapi,
+  Jira: siJira,
+};
+
+const customIconMap: Record<string, string> = {
+  Tableau: '/images/icons/tableau.svg',
+  VertexAI: '/images/icons/vertex-ai.svg',
+  SQL: '/images/icons/sql.svg',
+  Excel: '/images/icons/excel.svg',
+  'Power BI': '/images/icons/power-bi.svg',
+};
+
+const fallbackColorMap: Record<string, string> = {
+  'Adobe Illustrator': '#FF9A00',
+  'Adobe Photoshop': '#31A8FF',
+  'Adobe XD': '#FF61F6',
+  SQL: '#336791',
+  Tableau: '#E97627',
+  Excel: '#217346',
+  'Power BI': '#F2C811',
+};
+
+const monogramMap: Record<string, string> = {
+  Excel: 'Ex',
+  Tableau: 'Tb',
+  'Power BI': 'BI',
+  'Adobe Illustrator': 'Ai',
+  'Adobe Photoshop': 'Ps',
+  'Adobe XD': 'Xd',
+  LinkedIn: 'in',
+  SQL: 'SQL',
+  GIS: 'GIS',
+  VertexAI: 'VA',
+};
+
+// brand colors that read as black on the tile get their lighter official variant
+const hexOverride: Record<string, string> = { Django: '44B78B' };
+
+const icon = iconMap[name];
+const customSrc = customIconMap[name];
+const monogram = monogramMap[name] ?? name.slice(0, 2).toUpperCase();
+const fallbackColor = fallbackColorMap[name] ?? '#235f9c';
+---
+
+<span class="icon-tile" style={`width:${size + 16}px;height:${size + 16}px;`} aria-label={name}>
+  {
+    icon ? (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill={`#${hexOverride[name] ?? icon.hex}`} role="img" aria-label={icon.title}>
+        <path d={icon.path} />
+      </svg>
+    ) : customSrc ? (
+      <>
+        <span class="monogram" style={`color:${fallbackColor};font-size:${size * .48}px;`}>{monogram}</span>
+        <img
+          class="custom-icon"
+          src={url(customSrc)}
+          alt={name}
+          loading="lazy"
+          onload="this.previousElementSibling.style.display='none'; this.style.opacity='1';"
+          onerror="this.remove();"
+        />
+      </>
+    ) : (
+      <span class="monogram" style={`color:${fallbackColor};font-size:${size * .48}px;`}>{monogram}</span>
+    )
+  }
+</span>
+
+<style>
+  .icon-tile {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(35, 95, 156, .10);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .86);
+    box-shadow: 0 5px 16px rgba(23, 75, 125, .06);
+  }
+  .monogram {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-weight: 750;
+    letter-spacing: -.03em;
+    line-height: 1;
+  }
+  .custom-icon {
+    position: absolute;
+    inset: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    object-fit: contain;
+    opacity: 0;
+  }
+</style>

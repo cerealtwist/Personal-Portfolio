@@ -1,0 +1,85 @@
+---
+import { experience } from '../data/experience';
+import OrgLogo from './OrgLogo.astro';
+---
+
+<section id="experience" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-eyebrow">Work experience</p>
+      <h2>Internships and professional roles</h2>
+    </div>
+    <div class="exp-list">
+      {
+        experience.map((item) => (
+          <article class="exp-item reveal">
+            <div class="exp-date">{item.date}</div>
+            <OrgLogo name={item.org} logo={item.logo} />
+            <div class="exp-main">
+              <div class="exp-heading">
+                <p class="exp-role">{item.role}</p>
+                <p class="exp-org">{item.org}</p>
+              </div>
+              <ul class="exp-bullets">
+                {item.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .exp-list { border-top: 1px solid var(--line); }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 170px 44px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+    padding: 34px 0 38px;
+    border-bottom: 1px solid var(--line);
+  }
+  .exp-date {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    padding-top: 8px;
+  }
+  .exp-heading { margin-bottom: 16px; }
+  .exp-role {
+    font-size: clamp(1.12rem, 1.8vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 3px;
+  }
+  .exp-org { font-size: 0.96rem; color: var(--text-secondary); margin: 0; }
+  .exp-bullets {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    max-width: 72ch;
+  }
+  .exp-bullets li {
+    color: var(--text-secondary);
+    line-height: 1.55;
+    padding-left: 15px;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--text-tertiary);
+  }
+
+  @media (max-width: 720px) {
+    .exp-item { grid-template-columns: 40px 1fr; gap: 14px 16px; }
+    .exp-date { grid-column: 1 / -1; padding-top: 0; }
+  }
+</style>

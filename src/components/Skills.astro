@@ -1,0 +1,88 @@
+---
+import TechIcon from './TechIcon.astro';
+
+const groups = [
+  {
+    label: 'Data & analysis',
+    tools: ['Python', 'SQL', 'BigQuery', 'Jupyter Notebook', 'Google Colab', 'Excel', 'Power BI', 'Tableau'],
+  },
+  {
+    label: 'Cloud & development',
+    tools: ['GCP', 'GitHub', 'Docker', 'PostgreSQL', 'Django', 'FastAPI'],
+  },
+  {
+    label: 'Design & communication',
+    tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Adobe XD'],
+  },
+  {
+    label: 'Planning & collaboration',
+    tools: ['Jira', 'Notion', 'Trello'],
+  },
+];
+---
+
+<section id="skills" class="alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-eyebrow">Tools & skills</p>
+      <h2>The tools change. The way I work matters more.</h2>
+    </div>
+
+    <div class="skills-list reveal">
+      {groups.map((group) => (
+        <div class="skill-row">
+          <p class="skill-label">{group.label}</p>
+          <div class="tool-list">
+            {group.tools.map((tool) => (
+              <div class="tool-item">
+                <TechIcon name={tool} size={20} />
+                <span>{tool}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-list { border-top: 1px solid var(--line); }
+  .skill-row {
+    display: grid;
+    grid-template-columns: minmax(150px, .3fr) 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .skill-label {
+    margin: 10px 0 0;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--blue-deep);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+  .tool-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 14px 18px;
+  }
+  .tool-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: var(--text);
+    font-size: .92rem;
+    font-weight: 520;
+  }
+  .tool-item span { min-width: 0; }
+
+  @media (max-width: 700px) {
+    .skill-row { grid-template-columns: 1fr; gap: 16px; }
+    .skill-label { margin-top: 0; }
+    .tool-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
