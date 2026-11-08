@@ -33,6 +33,7 @@ export const experience: ExperienceEntry[] = [
     date: 'Aug 2026 – Present',
     role: 'AI Evaluation Specialist & Language Expert',
     org: 'Outlier.ai',
+    logo: '/images/logos/outlier.png',
     bullets: [
       'Evaluate Speech-to-Speech multimodal AI models for Indonesian localization through RLHF, adversarial red-teaming, and multi-turn conversation auditing.',
       'Write structured rationales covering acoustic quality, safety boundaries, and factual accuracy while maintaining a 3.5/4.0 quality rating.',
