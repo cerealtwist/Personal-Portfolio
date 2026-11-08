@@ -69,61 +69,6 @@ export function ditherInto(
   out.getContext('2d')!.putImageData(data, 0, 0);
 }
 
-/** A simple, original placeholder bust used until a real portrait cut-out is provided. */
-export function drawBust(w = 400, h = 480): HTMLCanvasElement {
-  const c = document.createElement('canvas');
-  c.width = w;
-  c.height = h;
-  const g = c.getContext('2d')!;
-  const cx = w / 2;
-
-  // shoulders
-  let grad = g.createRadialGradient(cx - 60, h * 0.78, 10, cx, h * 0.95, w * 0.62);
-  grad.addColorStop(0, '#e9e9e9');
-  grad.addColorStop(1, '#5c5c5c');
-  g.fillStyle = grad;
-  g.beginPath();
-  g.ellipse(cx, h * 1.02, w * 0.46, h * 0.3, 0, Math.PI, 0);
-  g.fill();
-
-  // neck
-  g.fillStyle = '#b9b9b9';
-  g.fillRect(cx - 34, h * 0.58, 68, h * 0.16);
-
-  // head
-  grad = g.createRadialGradient(cx - 45, h * 0.32, 12, cx, h * 0.4, w * 0.36);
-  grad.addColorStop(0, '#ffffff');
-  grad.addColorStop(0.7, '#d2d2d2');
-  grad.addColorStop(1, '#8a8a8a');
-  g.fillStyle = grad;
-  g.beginPath();
-  g.ellipse(cx, h * 0.4, w * 0.26, h * 0.23, 0, 0, Math.PI * 2);
-  g.fill();
-
-  // hair
-  grad = g.createLinearGradient(0, h * 0.12, 0, h * 0.34);
-  grad.addColorStop(0, '#3a3a3a');
-  grad.addColorStop(1, '#141414');
-  g.fillStyle = grad;
-  g.beginPath();
-  g.ellipse(cx, h * 0.27, w * 0.28, h * 0.15, 0, Math.PI * 0.98, Math.PI * 2.02);
-  g.ellipse(cx + w * 0.12, h * 0.31, w * 0.16, h * 0.07, -0.25, Math.PI, Math.PI * 2);
-  g.fill();
-
-  // eyes, brows, smile
-  g.fillStyle = '#000';
-  for (const dx of [-44, 44]) {
-    g.beginPath();
-    g.ellipse(cx + dx, h * 0.41, 11, 17, 0, 0, Math.PI * 2);
-    g.fill();
-    g.fillRect(cx + dx - 18, h * 0.335, 36, 7);
-  }
-  g.beginPath();
-  g.ellipse(cx, h * 0.5, 30, 18, 0, 0, Math.PI);
-  g.fill();
-  return c;
-}
-
 /** Deterministic abstract artwork for projects that do not have a visual yet. */
 export function drawArt(w: number, h: number, seed: number, label: string): HTMLCanvasElement {
   const c = document.createElement('canvas');

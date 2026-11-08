@@ -1,4 +1,5 @@
 export interface ExperienceEntry {
+  /** Leave empty until confirmed; the UI hides it. */
   date: string;
   role: string;
   org: string;
@@ -7,6 +8,13 @@ export interface ExperienceEntry {
 }
 
 export const experience: ExperienceEntry[] = [
+  {
+    // TODO(farand): add dates and 2-3 bullets about the work at rey.id
+    date: '',
+    role: 'AI Engineer Intern',
+    org: 'rey.id',
+    bullets: [],
+  },
   {
     date: 'Jun 2026 – Present',
     role: 'Project Consultant · Data & Systems Technical Lead',
