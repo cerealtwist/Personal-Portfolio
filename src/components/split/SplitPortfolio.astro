@@ -63,9 +63,17 @@ const cursors = [
             Reach me at <a href={`mailto:${profile.email}`}>{profile.email}</a>.
           </p>
         </div>
+
+        <a class="award enter" style="--i:3" href="#about" data-view-link="about" data-award>
+          <img src={url(profile.award.logo)} alt="Astra 1st 2026" width="96" height="37" />
+          <span class="award-text">
+            <strong>{profile.award.title}</strong>
+            <span>Also {profile.otherHonors.join(', ')}</span>
+          </span>
+        </a>
       </header>
 
-      <section class="works enter" style="--i:3" aria-labelledby="works-title">
+      <section class="works enter" style="--i:4" aria-labelledby="works-title">
         <div class="works-head">
           <h2 id="works-title">Selected work</h2>
           <span class="works-count" data-count>{works.length} projects</span>
@@ -100,6 +108,8 @@ const cursors = [
                       <span class="row-thumb" aria-hidden="true">
                         {w.hero ? (
                           <img src={url(w.hero)} alt="" loading="lazy" />
+                        ) : w.brandLogo ? (
+                          <canvas data-logo={url(w.brandLogo)} data-w="240" data-h="180"></canvas>
                         ) : (
                           <canvas data-art data-seed={Number(w.number)} data-label={w.number} data-cols="96"></canvas>
                         )}
@@ -122,7 +132,7 @@ const cursors = [
         </div>
       </section>
 
-      <nav class="links enter" style="--i:4" aria-label="More about Farand">
+      <nav class="links enter" style="--i:5" aria-label="More about Farand">
         <div class="links-group">
           {panelLinks.map((l) => (
             <a href={`#${l.view}`} data-view-link={l.view}>{l.label}</a>
@@ -157,7 +167,7 @@ const cursors = [
     </button>
 
     <section class="view home" data-view="home" hidden aria-label="Introduction">
-      <div class="stage" aria-hidden="true">
+      <div class="stage">
         {floatTools.map((t, i) => (
           <span class="float" style={`--x:${t.x}%;--y:${t.y}%;--d:${t.d};--delay:${i * -1.3}s;--n:${i}`}>
             <span class="bob"><span class="tool-card"><TechIcon name={t.name} size={22} /></span></span>
@@ -171,15 +181,12 @@ const cursors = [
             </span>
           </span>
         ))}
-        <span class="float" style="--x:7%;--y:44%;--d:8;--delay:-3s;--n:10">
+        <span class="float award-float" style="--x:7%;--y:46%;--d:8;--delay:-3s;--n:10">
           <span class="bob">
-            <span class="chat">
-              <span class="chat-avatar">FM</span>
-              <span class="chat-body">
-                <span class="chat-head"><strong>Farand</strong> just now</span>
-                <span>Pick a project on the left and I'll walk you through it.</span>
-              </span>
-            </span>
+            <a class="award-card" href="#about" data-view-link="about" data-award>
+              <img src={url(profile.award.logo)} alt="" width="120" height="47" />
+              <span>{profile.award.title}</span>
+            </a>
           </span>
         </span>
       </div>
@@ -209,6 +216,8 @@ const cursors = [
                     <img src={url(w.hero)} alt={w.heroAlt ?? w.title} data-hero />
                     <canvas class="screen-canvas" data-reveal-img aria-hidden="true"></canvas>
                   </>
+                ) : w.brandLogo ? (
+                  <canvas class="screen-canvas" data-logo={url(w.brandLogo)} data-w="960" data-h="600" data-reveal role="img" aria-label={`${w.title} logo`}></canvas>
                 ) : (
                   <canvas class="screen-canvas pixelated" data-art data-seed={Number(w.number)} data-label={w.number} data-cols="240" data-reveal role="img" aria-label={`${w.title}: visual coming soon`}></canvas>
                 )}
@@ -308,8 +317,8 @@ const cursors = [
           </p>
         </div>
         <dl class="facts">
+          <div><dt>Honors</dt><dd class="honors"><img src={url(profile.award.logo)} alt="Astra 1st 2026" width="110" height="43" /><strong>{profile.award.title}</strong><span>{profile.otherHonors.join(', ')}</span></dd></div>
           <div><dt>Studying</dt><dd>B.Sc. Data Science, Telkom University</dd></div>
-          <div><dt>Honors</dt><dd>Astra 1st 2026 Scholarship Awardee<br />Telkom University Endowment Fund 2026 Awardee</dd></div>
           <div><dt>Interested in</dt><dd>Data products, applied AI, urban analytics, decision intelligence, visual communication</dd></div>
         </dl>
       </article>
@@ -337,8 +346,37 @@ const cursors = [
     c.getContext('2d')!.drawImage(dithered, 0, 0);
   }
 
+  const logoReady = new Map<HTMLCanvasElement, Promise<void>>();
+  function renderLogo(c: HTMLCanvasElement) {
+    const w = Number(c.dataset.w);
+    const h = Number(c.dataset.h);
+    const tile = document.createElement('canvas');
+    tile.width = w;
+    tile.height = h;
+    const g = tile.getContext('2d')!;
+    g.fillStyle = '#f4f6fb';
+    g.fillRect(0, 0, w, h);
+    const img = new Image();
+    const done = new Promise<void>((resolve) => {
+      img.onload = () => {
+        const lw = w * 0.62;
+        const lh = (lw * img.naturalHeight) / img.naturalWidth;
+        g.drawImage(img, (w - lw) / 2, (h - lh) / 2, lw, lh);
+        artCache.set(c, tile);
+        c.width = w;
+        c.height = h;
+        c.getContext('2d')!.drawImage(tile, 0, 0);
+        resolve();
+      };
+      img.onerror = () => resolve();
+    });
+    img.src = c.dataset.logo!;
+    logoReady.set(c, done);
+  }
+
   function revealView(view: HTMLElement) {
-    view.querySelectorAll<HTMLCanvasElement>('canvas[data-reveal]').forEach((c) => {
+    view.querySelectorAll<HTMLCanvasElement>('canvas[data-reveal]').forEach(async (c) => {
+      await logoReady.get(c);
       const art = artCache.get(c);
       if (art) pixelReveal(c, art, 1000);
     });
@@ -537,6 +575,9 @@ const cursors = [
       else react(clickFaces[clicks % clickFaces.length], 'Hehe.');
     });
 
+    document.querySelectorAll<HTMLElement>('[data-award]').forEach((el) => {
+      el.addEventListener('pointerenter', () => react('🏆', 'Astra 1st 2026. Proud of this one.'));
+    });
     document.querySelectorAll<HTMLElement>('.row').forEach((row) => {
       row.addEventListener('pointerenter', () => react('👀', `${row.dataset.title}? Good pick.`));
     });
@@ -547,6 +588,7 @@ const cursors = [
 
   /* boot */
   document.querySelectorAll<HTMLCanvasElement>('canvas[data-art]').forEach(renderArt);
+  document.querySelectorAll<HTMLCanvasElement>('canvas[data-logo]').forEach(renderLogo);
   const photo = document.querySelector<HTMLImageElement>('img[data-photo]');
   const photoCanvas = document.querySelector<HTMLCanvasElement>('[data-photo-reveal]');
   if (photo && photoCanvas) {
@@ -663,6 +705,44 @@ const cursors = [
   [data-photo-reveal].done { opacity: 0; transition: opacity .4s; }
   .intro p { margin: 0; max-width: 52ch; color: var(--ink-2); font-size: .94rem; line-height: 1.6; }
   .intro a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+
+  .award {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 12px 16px 12px 12px;
+    border-radius: 16px;
+    isolation: isolate;
+    transition: translate .3s var(--ease);
+  }
+  .award::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid #c9d8fb;
+    border-radius: inherit;
+    background: linear-gradient(100deg, #ffffff 0%, var(--blue-soft) 100%);
+    transition: border-color .2s;
+  }
+  .award:hover::after { border-color: var(--blue); }
+  .award::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    border-radius: inherit;
+    transform: translate(5px, 5px);
+    background: var(--dither-pattern);
+    opacity: .3;
+  }
+  .award:hover { translate: 0 -2px; }
+  .award img { width: 96px; height: auto; flex-shrink: 0; padding: 6px 8px; border-radius: 10px; background: #fff; }
+  .award-text { display: grid; gap: 2px; min-width: 0; }
+  .award-text strong { font-size: .98rem; font-weight: 700; letter-spacing: -.015em; color: var(--ink); }
+  .award-text span { color: var(--ink-2); font-size: .8rem; }
 
   /* works box */
   .works {
@@ -899,37 +979,42 @@ const cursors = [
     white-space: nowrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
   }
-  .chat {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    width: max-content;
-    max-width: 330px;
-    padding: 12px 16px 12px 12px;
-    border: 1px solid rgba(255, 255, 255, .34);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, .14);
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-    box-shadow: 0 12px 28px rgba(8, 26, 84, .2);
-    font-size: .86rem;
-    line-height: 1.4;
-  }
-  .chat-avatar {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
+  .award-float { pointer-events: auto; }
+  .award-card {
+    position: relative;
     display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: #0b1533;
-    font-size: .74rem;
+    justify-items: start;
+    gap: 10px;
+    width: 230px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    isolation: isolate;
+    color: #0b1533;
+    font-size: .92rem;
     font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -.01em;
+    transition: rotate .4s var(--ease);
   }
-  .chat-body { display: grid; gap: 2px; }
-  .chat-head { color: var(--on-blue-2); font-size: .76rem; }
-  .chat-head strong { color: #fff; margin-right: 6px; }
-
+  .award-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: #f4f6fb;
+  }
+  .award-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    border-radius: inherit;
+    transform: translate(6px, 6px);
+    background: var(--dither-pattern);
+  }
+  .award-card img { width: 120px; height: auto; }
+  .award-card:hover { rotate: -2deg; }
   .home-title {
     position: absolute;
     left: clamp(32px, 4vw, 64px);
@@ -1089,6 +1174,7 @@ const cursors = [
   .work-meta dt { color: var(--on-blue-3); font-size: .78rem; font-weight: 500; }
   .work-meta dd { margin: 0; color: #fff; font-size: .84rem; font-weight: 600; }
 
+  .view-title + .prose { margin-top: 28px; }
   .prose { max-width: 66ch; color: var(--on-blue-2); font-size: 1rem; line-height: 1.7; }
   .prose p { margin: 0 0 16px; }
   .prose .lead { color: #fff; font-size: 1.18rem; line-height: 1.55; font-weight: 500; }
@@ -1155,6 +1241,10 @@ const cursors = [
   .facts div { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--on-blue-rule); }
   .facts dt { color: var(--on-blue-3); font-size: .9rem; font-weight: 500; }
   .facts dd { margin: 0; font-size: .95rem; line-height: 1.55; }
+  .honors { display: grid; justify-items: start; gap: 4px; }
+  .honors img { width: 110px; height: auto; margin-bottom: 8px; padding: 8px 10px; border-radius: 10px; background: #fff; }
+  .honors strong { font-size: 1.05rem; }
+  .honors span { color: var(--on-blue-2); }
 
   /* small screens */
   @media (max-width: 959px) {

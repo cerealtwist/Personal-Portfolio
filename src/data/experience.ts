@@ -10,19 +10,22 @@ export const experience: ExperienceEntry[] = [
   {
     date: 'Oct 2026 – Present',
     role: 'AI Engineer Intern',
-    org: 'rey.id',
-    bullets: [],
+    org: 'Rey.id',
+    bullets: [
+      'Built a Python evaluation harness (Jupyter, pydantic-ai) for LLM-based diagnosis extraction from handwritten medical documents, and tuned the extraction instructions to raise diagnosis-name accuracy by 40 percentage points with zero regressions.',
+      'Benchmarked 9 LLM configurations (Gemini, GPT, Claude) through a LiteLLM gateway on accuracy, cost, and latency to guide model selection for production extraction.',
+      'Wrote hospital-specific extraction prompts for itemized medical bills across 18 hospitals, validated with pytest and Dockerized pipeline runs, reaching 100% line-item accuracy (up from as low as 0%).',
+    ],
   },
   {
-    date: 'Jun 2026 – Present',
-    role: 'Project Consultant · Data & Systems Technical Lead',
+    date: 'Jun 2026 – Nov 2026',
+    role: 'Project Consultant',
     org: 'PT. Astra International – Honda Sales Operation (Astra Motor)',
     logo: '/images/logos/astra-motor.png',
     bullets: [
-      'Leading the technical development of AMDC Pocket, an internal learning platform for Astra Motor Development Center, across architecture, backend development, access rules, testing, and handover readiness.',
-      'Built and maintained Django and PostgreSQL backend workflows while preparing and validating user data for system use.',
-      'Introduced Jira-based sprint tracking to improve visibility of task ownership, dependencies, blockers, and delivery progress across the development team.',
-      'Facilitate weekly Scrum sessions and regular PDCA updates with project stakeholders while the project progresses toward UAT and handover.',
+      'Led end-to-end development of the Digital Library for Astra Motor Human Capital (HC): a Django REST API and a 16-entity PostgreSQL schema (22 migrations) covering role-based access, learning programs, progress tracking, approval workflows, and audit logs.',
+      'Automated delivery with a GitHub Actions CI/CD pipeline (~660 backend tests, frontend tests, and production build checks on every merge) and a one-step production deploy with health checks and automatic rollback.',
+      'Managed the backlog and sprints in Jira, aligned requirements and release scope with HC stakeholders, and ran user acceptance testing (92 test cases across 10 modules) plus a System Usability Scale survey to turn feedback into prioritized fixes.',
     ],
   },
   {
@@ -40,9 +43,9 @@ export const experience: ExperienceEntry[] = [
     org: 'EON Reality',
     logo: '/images/logos/eon-reality.png',
     bullets: [
-      'Engineered the EON Orchestrator, an RAG-based AI workflow system using Python, FastAPI, and PostgreSQL for business proposal and outreach workflows.',
-      'Developed a vocational training startup proposal for the Learn for Life initiative, integrating EON-XR around workforce skill gaps in Indonesia.',
-      'Benchmarked AI application builders including Replit, Lovable, and Manus to compare development workflow, exportability, and interface quality.',
+      'Engineered the EON Orchestrator, a retrieval-augmented generation (RAG) application using Python, FastAPI, and PostgreSQL to support business proposal workflows, email outreach drafting, and presentation generation.',
+      'Developed a vocational training startup proposal for the Learn for Life initiative, aligning EON-XR solutions with Indonesian workforce skills needs.',
+      'Evaluated no-code application builders against cost, developer workflow, UI/UX capabilities, and file-export requirements to inform tool selection.',
     ],
   },
   {
@@ -51,8 +54,9 @@ export const experience: ExperienceEntry[] = [
     org: 'Telkom University Language Center',
     logo: '/images/logos/telkom-university.png',
     bullets: [
-      'Taught Indonesian at A1 and A2 levels through the BIPA program in collaboration with Atdikbud KBRI Paris.',
-      'Worked with KNB and TIAS scholarship awardees through in-person sessions at Telkom University, adapting feedback to different language backgrounds.',
+      'Taught Indonesian to foreign speakers at Debutant (A1) and Pre-Intermediate (A2) levels through the BIPA program, a collaboration between Telkom University and Atdikbud KBRI Paris.',
+      'Worked with KNB and TIAS scholarship awardees in offline sessions at Telkom University, helping them strengthen their Indonesian during their studies.',
+      'Gave personalized feedback to students from diverse backgrounds on Indonesian for both academic and everyday settings.',
     ],
   },
   {

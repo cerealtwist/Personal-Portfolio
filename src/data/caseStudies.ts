@@ -12,6 +12,8 @@ export interface CaseStudy {
   summary: string;
   categories: Category[];
   group: string;
+  // shown on a light tile when there is no screenshot
+  brandLogo?: string;
   number: string;
   title: string;
   year: string;
@@ -31,6 +33,7 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'amdc-pocket',
+    brandLogo: '/images/logos/amdc-pocket.png',
     tag: 'Astra Motor · Astra1st',
     summary: 'Building an internal learning platform around access, maintainability, and real organizational constraints.',
     categories: ['product'],
