@@ -76,7 +76,7 @@ const cursors = [
         </div>
         <div class="works-toolbar">
           <div class="filters" role="group" aria-label="Filter by category">
-            {categories.map((c) => (
+            {categories.filter((c) => works.some((w) => w.categories.includes(c.id))).map((c) => (
               <button type="button" class="chip" data-filter={c.id} aria-pressed="false" title={c.label}>
                 <span class={`dot dot-${c.id}`} aria-hidden="true"></span>
                 {c.short}
