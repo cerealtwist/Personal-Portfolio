@@ -1,6 +1,6 @@
 export const profile = {
   name: 'Farand Mahazalfaa',
   email: 'farand.dee@gmail.com',
-  // foto: taruh di public/images/me/, lalu isi path-nya, contoh '/images/me/farand.jpg'
-  photo: undefined as string | undefined,
+  // path dihitung dari folder public/
+  photo: '/images/profpic.png' as string | undefined,
 };

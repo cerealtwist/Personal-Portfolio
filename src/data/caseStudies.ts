@@ -40,6 +40,8 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'amdc-pocket',
     brandLogo: '/images/logos/amdc-pocket.png',
+    hero: '/images/covers/amdc-login.png',
+    heroAlt: 'AMDC Pocket sign-in page: "Perpustakaan digital materi Astra Motor" with the email and password form',
     tag: 'Astra Motor · Astra1st',
     summary: 'Building an internal learning platform around access, maintainability, and real organizational constraints.',
     categories: ['product'],
@@ -59,7 +61,6 @@ export const caseStudies: CaseStudy[] = [
       'Technical documentation and handover planning',
     ],
     learning: 'Good architecture is not about defending the first decision. It is about documenting the reasoning well enough that the team can change direction responsibly.',
-    placeholderLabel: 'Confidential project · safe login / hero visual to be added',
   },
   {
     slug: 'narapangan',
