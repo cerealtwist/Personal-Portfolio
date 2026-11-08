@@ -8,12 +8,9 @@ export const categories: { id: Category; label: string; short: string }[] = [
 
 export interface CaseStudy {
   slug: string;
-  /** Short uppercase label shown above the title in the works list. */
   tag: string;
-  /** One-line summary for the works list. */
   summary: string;
   categories: Category[];
-  /** Year the work is grouped under in the list. */
   group: string;
   number: string;
   title: string;

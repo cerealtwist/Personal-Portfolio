@@ -1,5 +1,3 @@
-// Small pixel/dither toolkit used across the site. No dependencies.
-
 const BAYER8 = [
   [0, 32, 8, 40, 2, 34, 10, 42],
   [48, 16, 56, 24, 50, 18, 58, 26],
@@ -21,11 +19,7 @@ export function hex(c: string): RGB {
 export const reducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/**
- * Render `source` into `out` as a 2-colour ordered dither at `cols` pixels wide.
- * Transparent source pixels stay transparent. Scale `out` up with CSS
- * (image-rendering: pixelated) to get the chunky look.
- */
+// 2-colour Bayer dither, `cols` pixels wide. Scale up with image-rendering: pixelated.
 export function ditherInto(
   out: HTMLCanvasElement,
   source: CanvasImageSource,
@@ -69,7 +63,7 @@ export function ditherInto(
   out.getContext('2d')!.putImageData(data, 0, 0);
 }
 
-/** Deterministic abstract artwork for projects that do not have a visual yet. */
+// placeholder art for projects without a screenshot yet
 export function drawArt(w: number, h: number, seed: number, label: string): HTMLCanvasElement {
   const c = document.createElement('canvas');
   c.width = w;
@@ -98,10 +92,7 @@ export function drawArt(w: number, h: number, seed: number, label: string): HTML
   return c;
 }
 
-/**
- * Pixel dissolve: blocks appear in random order while the block size shrinks
- * to 1, ending on the full-resolution image.
- */
+// blocky dissolve that ends on the full image
 export function pixelReveal(canvas: HTMLCanvasElement, final: CanvasImageSource, duration = 900) {
   const w = canvas.width;
   const h = canvas.height;
